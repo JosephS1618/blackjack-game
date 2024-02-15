@@ -1,6 +1,6 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 // Creates a new shuffled card deck. Either a single deck (classic mode) or six decks (party mode).
@@ -9,7 +9,7 @@ public class Deck {
 
     //EFFECTS: creates a new deck of cards with either 52 cards (classic) or 312 cards (party)
     public Deck(int select) {
-        cardDeck = new ArrayList<>();
+        cardDeck = new LinkedList<>();
 
         if (select == 1) {
             makeClassicDeck();
@@ -32,7 +32,7 @@ public class Deck {
     // EFFECTS: Combines 6 deck for 312 cards each with value, symbol and suit.
     private void makePartyDeck() {
         makeClassicDeck();
-        List<Card> tempDeck = new ArrayList<>();
+        List<Card> tempDeck = new LinkedList<>();
         for (int x = 0; x < 6; x++) { // change the x limit to make a deck of any size
             for (int y = 0; y < 52; y++) {
                 tempDeck.add(cardDeck.get(y));

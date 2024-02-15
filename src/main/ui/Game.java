@@ -29,6 +29,9 @@ public class Game {
         newDealer = new Dealer();
 
         //TODO ask user for cash
+
+
+
     }
 
     // MODIFIES: this
@@ -37,16 +40,12 @@ public class Game {
         //TODO
     }
 
-
-
-
     //REQUIRES: the deck is not empty
     //MODIFIES: this
     //EFFECTS: Shuffles the deck in random order.
     private void shuffle() {
         Collections.shuffle(newDeck.getCardDeck());
     }
-
 
     //FOR TESTING PURPOSES ONLY
     public void printDeck() {

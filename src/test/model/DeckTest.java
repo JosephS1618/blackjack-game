@@ -74,7 +74,37 @@ class DeckTest {
     }
 
     @Test
-    void deckSizeClassicTest() {
-        assertEquals(52, deck1.cardDeckSize());
+    void makePartyDeckFirstCardTest() {
+        assertEquals(11, deck2.getCardDeck().get(0).getNumber());
+        assertEquals("A", deck2.getCardDeck().get(0).getSymbol());
+        assertEquals('D', deck2.getCardDeck().get(0).getSuit());
     }
+
+    @Test
+    void makeClassicDeckEveryAceOfDiamondsTest() {
+        assertEquals(11, deck2.getCardDeck().get(0).getNumber());
+        assertEquals("A", deck2.getCardDeck().get(0).getSymbol());
+        assertEquals('D', deck2.getCardDeck().get(0).getSuit());
+
+        assertEquals(11, deck2.getCardDeck().get(52).getNumber());
+        assertEquals("A", deck2.getCardDeck().get(52).getSymbol());
+        assertEquals('D', deck2.getCardDeck().get(52).getSuit());
+
+        assertEquals(11, deck2.getCardDeck().get(104).getNumber());
+        assertEquals("A", deck2.getCardDeck().get(104).getSymbol());
+        assertEquals('D', deck2.getCardDeck().get(104).getSuit());
+
+        assertEquals(11, deck2.getCardDeck().get(156).getNumber());
+        assertEquals("A", deck2.getCardDeck().get(156).getSymbol());
+        assertEquals('D', deck2.getCardDeck().get(156).getSuit());
+
+        assertEquals(11, deck2.getCardDeck().get(208).getNumber());
+        assertEquals("A", deck2.getCardDeck().get(208).getSymbol());
+        assertEquals('D', deck2.getCardDeck().get(208).getSuit());
+
+        assertEquals(11, deck2.getCardDeck().get(260).getNumber());
+        assertEquals("A", deck2.getCardDeck().get(260).getSymbol());
+        assertEquals('D', deck2.getCardDeck().get(260).getSuit());
+    }
+
 }

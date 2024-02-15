@@ -1,6 +1,6 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Player {
@@ -9,11 +9,11 @@ public class Player {
     //Constructor
     //EFFECTS: creates a new list for the player to hold cards
     public Player() {
-        playerCards = new ArrayList<>();
+        playerCards = new LinkedList<>();
     }
 
     //REQUIRES: player cards are not empty
-    //EFFECTS: returns the sum of the players cards.
+    //EFFECTS: returns the sum of the players card numbers.
     public int playerSum() {
         int sum = 0;
 
@@ -28,13 +28,13 @@ public class Player {
     }
 
     //EFFECTS: if players hand contains an ace, and they hit over 21, change the ace to a 1 and return the new sum.
-    public int playerSumWithAce() {
+    private int playerSumWithAce() {
         findAce().setNumber(1); //changes ace from 11 to 1
         return playerSum();
     }
 
     //EFFECTS: finds and returns the first ace card with value 11. otherwise returns null.
-    public Card findAce() {
+    private Card findAce() {
         for (Card c : playerCards) {
             if (c.getNumber() == 11) {
                 return c;
@@ -51,4 +51,5 @@ public class Player {
     public List<Card> getPlayerCards() {
         return playerCards;
     }
+
 }
