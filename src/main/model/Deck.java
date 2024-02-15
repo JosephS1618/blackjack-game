@@ -53,15 +53,15 @@ public class Deck {
         Card card = null;
 
         if (number == 1) {
-            card = new Card(11,'A', suit);
+            card = new Card(11,"A", suit);
         } else if (number > 1 && number < 11) {
-            card = new Card(number, Character.forDigit(number,10), suit);
+            card = new Card(number, String.valueOf(number), suit);
         } else if (number == 11) {
-            card = new Card(10, 'J', suit);
+            card = new Card(10, "J", suit);
         } else if (number == 12) {
-            card = new Card(10, 'Q', suit);
+            card = new Card(10, "Q", suit);
         } else if (number == 13) {
-            card = new Card(10, 'K', suit);
+            card = new Card(10, "K", suit);
         }
 
         deck.add(card);
