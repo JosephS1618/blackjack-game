@@ -7,12 +7,15 @@ public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Game game = new Game();
-        int select;
+        int select = 0;
 
         System.out.println("BLACKJACK");
-        System.out.println("1. Classic Mode\n2. Party Mode\n3. View Game log");
-        select = input.nextInt();
-        game.startGame(select);
+
+        do {
+            System.out.println("1. Classic Mode (one deck)\n2. Party Mode (six decks)\n3. View Game log");
+            select = input.nextInt();
+            game.startGame(select);
+        } while (select != 0);
 
         System.out.println("Thanks for playing");
 

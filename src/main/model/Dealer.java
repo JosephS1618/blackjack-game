@@ -54,4 +54,8 @@ public class Dealer {
     public String getCardSymbol(int index) {
         return dealerCards.get(index).getSymbol();
     }
+
+    public int getCardValue(int index) {
+        return dealerCards.get(index).getNumber();
+    }
 }
