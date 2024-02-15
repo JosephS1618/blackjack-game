@@ -7,6 +7,7 @@ import java.util.List;
 public class Deck {
     private List<Card> cardDeck;
 
+    //REQUIRES: input is either 1 or 2
     //EFFECTS: creates a new deck of cards with either 52 cards (classic) or 312 cards (party)
     public Deck(int select) {
         cardDeck = new ArrayList<>();
@@ -16,6 +17,7 @@ public class Deck {
         } else if (select == 2) {
             makePartyDeck();
         }
+
     }
 
     // MODIFIES: this
