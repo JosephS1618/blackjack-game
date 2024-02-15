@@ -28,13 +28,13 @@ public class Player {
     }
 
     //EFFECTS: if players hand contains an ace, and they hit over 21, change the ace to a 1 and return the new sum.
-    private int playerSumWithAce() {
+    public int playerSumWithAce() {
         findAce().setNumber(1); //changes ace from 11 to 1
         return playerSum();
     }
 
     //EFFECTS: finds and returns the first ace card with value 11. otherwise returns null.
-    private Card findAce() {
+    public Card findAce() {
         for (Card c : playerCards) {
             if (c.getNumber() == 11) {
                 return c;

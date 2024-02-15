@@ -71,5 +71,17 @@ public class PlayerTest {
         assertEquals(17, player1.playerSum());
     }
 
+    @Test
+    void findAceExistsTest() {
+        player1.addCard(ace1);
+        assertEquals(ace1, player1.findAce());
+    }
+
+    @Test
+    void findAceDoesNotExist() {
+        player1.addCard(five);
+        assertEquals(null, player1.findAce());
+    }
+
 
 }

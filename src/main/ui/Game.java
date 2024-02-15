@@ -18,7 +18,6 @@ public class Game {
     private int cash;
     private int bettingAmount;
     private Boolean play; //false = end game. true = continue game
-    private Boolean win; //false = not win. true = win game
     private Boolean stand;
     private Scanner input = new Scanner(System.in);
 
@@ -32,52 +31,29 @@ public class Game {
     //REQUIRES: select either 1 or 2
     //MODIFIES: this, Deck cardDeck, Player playerCards, Dealer dealerCards.
     //EFFECTS: sets up the game, controls game logic, controls bets, outputs win, loss, tie.
-    @SuppressWarnings("methodlength")
     public void startGame(int select) {
-        setUpGame(select);
+        newDeck = new Deck();
+        player = new Player();
+        dealer = new Dealer();
+        play = true;
+        stand = false;
+        bettingAmount = 0;
+
+        if (select == 1) {
+            newDeck.makeClassicDeck();
+        } else if (select == 2) {
+            newDeck.makePartyDeck();
+        }
+
         shuffle(); // shuffles the deck
         firstDeal(); //gives player and dealer two cards each
         makeBet();
 
         do {
             printHands();
-            if (stand && player.playerSum() == dealer.dealerSum()) { // If there is a tie after stand
-                standoff();
-            } else if (player.playerSum() == 21 && dealer.dealerSum() == 21) { // 21 standoff
-                standoff();
-            } else if (player.playerSum() == 21) { // if the player gets a blackjack
-                playerWins("Blackjack!", true);
-            } else if (player.playerSum() > 21) { // if the player busts
-                playerLoses("Player busts.");
-            } else if (dealer.dealerSum() > 21) { // if the dealer busts
-                playerWins("Dealer busts!", false);
-            } else if (stand && (player.playerSum() < dealer.dealerSum())) { // dealer is closer to 21
-                playerLoses("Dealer closer to 21.");
-            } else if (stand && (player.playerSum() > dealer.dealerSum())) { // player is closer to 21
-                playerWins("You're closer to 21!", false);
-            } else {
-
-                stand = hitOrStand();
-                if (stand) {
-                    dealerPlay(); // dealer draws until over 17
-                }
-            }
+            playGame(player.playerSum(), dealer.dealerSum());
         } while (play);
-
         printEndHand();
-    }
-
-    //REQUIRES: select is either 1 or 2
-    //MODIFIES: this
-    //EFFECTS: initializes a new player, deck, dealer. sets variables to their starting values
-    public void setUpGame(int select) {
-        newDeck = new Deck(select);
-        player = new Player();
-        dealer = new Dealer();
-        play = true;
-        win = false;
-        stand = false;
-        bettingAmount = 0;
     }
 
     //MODIFIES: this
@@ -110,6 +86,29 @@ public class Game {
 
         System.out.print("Your cards:" + yourHand + " (" + player.playerSum() + ") ");
         System.out.println("Dealer's card:" + dealerHand + " (" + dealer.getCardValue(0) + ")");
+    }
+
+    public void playGame(int playSum, int dealSum) {
+        if (stand && playSum == dealSum) { // stand and tie
+            standoff();
+        } else if (playSum == 21 && dealSum == 21) { // 21 and tie
+            standoff();
+        } else if (playSum == 21) { // win and blackjack
+            playerWins("Blackjack!", true);
+        } else if (playSum > 21) { // lose and player busts
+            playerLoses("Player busts.");
+        } else if (dealSum > 21) { // win and dealer busts
+            playerWins("Dealer busts!", false);
+        } else if (stand && (playSum < dealSum)) { // stand and dealer is closer to 21
+            playerLoses("Dealer closer to 21.");
+        } else if (stand && (playSum > dealSum)) { // stand and player is closer to 21
+            playerWins("You're closer to 21!", false);
+        } else {
+            stand = hitOrStand();
+            if (stand) {
+                dealerPlay(); // dealer draws until over 17
+            }
+        }
     }
 
     //REQUIRES: play is false.
@@ -145,7 +144,7 @@ public class Game {
         if (choice == 1) {
             player.addCard(newDeck.getFirstCardInDeck());
             newDeck.removeFirstCardInDeck();
-        } else if (choice == 2) {
+        } else {
             return true;
         }
         return false;
@@ -208,18 +207,5 @@ public class Game {
     public int getCash() {
         return cash;
     }
-
-    //FOR TESTING PURPOSES ONLY
-    public void printDeck() {
-        String symbol;
-        char suit;
-        for (int i = 0; i < newDeck.cardDeckSize(); i++) {
-            symbol = newDeck.getCardDeck().get(i).getSymbol();
-            suit = newDeck.getCardDeck().get(i).getSuit();
-            System.out.println(symbol + ", " + suit);
-        }
-    }
-
-
 
 }

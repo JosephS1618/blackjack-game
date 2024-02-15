@@ -23,13 +23,13 @@ public class DealerTest {
     }
 
     @Test
-    void playerSumOneCardTest() {
+    void dealerSumOneCardTest() {
         dealer1.addCard(ace1);
         assertEquals(11, dealer1.dealerSum());
     }
 
     @Test
-    void playerSumTwoCardTest() {
+    void dealerSumTwoCardTest() {
         dealer1.addCard(ace1);
         assertEquals(11, dealer1.dealerSum());
         dealer1.addCard(five);
@@ -37,7 +37,7 @@ public class DealerTest {
     }
 
     @Test
-    void playerSumTwentyOneTest() {
+    void dealerSumTwentyOneTest() {
         dealer1.addCard(ace1);
         assertEquals(11, dealer1.dealerSum());
         dealer1.addCard(ten);
@@ -45,7 +45,7 @@ public class DealerTest {
     }
 
     @Test
-    void playerSumAceOver21Test() {
+    void dealerSumAceOver21Test() {
         dealer1.addCard(ace1);
         assertEquals(11, dealer1.dealerSum());
         dealer1.addCard(five);
@@ -57,7 +57,7 @@ public class DealerTest {
     }
 
     @Test
-    void playerSumTwoAceOver21Test() {
+    void dealerSumTwoAceOver21Test() {
         dealer1.addCard(ace1);
         assertEquals(11, dealer1.dealerSum());
         dealer1.addCard(five);
@@ -69,5 +69,17 @@ public class DealerTest {
 
         dealer1.addCard(ace2);
         assertEquals(17, dealer1.dealerSum());
+    }
+
+    @Test
+    void findAceExistsTest() {
+        dealer1.addCard(ace1);
+        assertEquals(ace1, dealer1.findAce());
+    }
+
+    @Test
+    void findAceDoesNotExist() {
+        dealer1.addCard(five);
+        assertEquals(null, dealer1.findAce());
     }
 }
