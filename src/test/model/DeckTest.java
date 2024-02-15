@@ -16,6 +16,12 @@ class DeckTest {
     }
 
     @Test
+    void deckConstructorTest() {
+        assertEquals(52, deck1.cardDeckSize()); // single deck 52
+        assertEquals(312, deck2.cardDeckSize()); // six deck 312
+    }
+
+    @Test
     void makeClassicDeckFirstCardTest() {
         assertEquals(11, deck1.getCardDeck().get(0).getNumber());
         assertEquals("A", deck1.getCardDeck().get(0).getSymbol());

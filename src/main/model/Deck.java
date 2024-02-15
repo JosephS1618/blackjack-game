@@ -65,21 +65,21 @@ public class Deck {
     //MODIFIES: this, card
     //EFFECTS: creates card of number, symbol and suit.
     private void makeCard(char suit, int number) {
-        Card card = null;
+        Card newCard = null;
 
         if (number == 1) {
-            card = new Card(11,"A", suit);
+            newCard = new Card(11,"A", suit);
         } else if (number > 1 && number < 11) {
-            card = new Card(number, String.valueOf(number), suit);
+            newCard = new Card(number, String.valueOf(number), suit);
         } else if (number == 11) {
-            card = new Card(10, "J", suit);
+            newCard = new Card(10, "J", suit);
         } else if (number == 12) {
-            card = new Card(10, "Q", suit);
+            newCard = new Card(10, "Q", suit);
         } else if (number == 13) {
-            card = new Card(10, "K", suit);
+            newCard = new Card(10, "K", suit);
         }
 
-        cardDeck.add(card);
+        cardDeck.add(newCard);
     }
 
     //EFFECTS: returns the integer size of the deck.
