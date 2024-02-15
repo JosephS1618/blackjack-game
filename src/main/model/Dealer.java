@@ -1,6 +1,6 @@
 package model;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dealer {
@@ -9,7 +9,7 @@ public class Dealer {
     //Constructor
     //EFFECTS: creates a new list for the dealer to hold cards
     public Dealer() {
-        dealerCards = new LinkedList<>();
+        dealerCards = new ArrayList<>();
     }
 
     //REQUIRES: dealer cards are not empty

@@ -30,6 +30,8 @@ public class Game {
 
         //TODO ask user for cash
 
+        newPlayer.addCard(newDeck.getCardDeck().get(0));
+        newDeck.getCardDeck().remove(0);
 
 
     }

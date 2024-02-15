@@ -1,6 +1,6 @@
 package model;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -9,7 +9,7 @@ public class Player {
     //Constructor
     //EFFECTS: creates a new list for the player to hold cards
     public Player() {
-        playerCards = new LinkedList<>();
+        playerCards = new ArrayList<>();
     }
 
     //REQUIRES: player cards are not empty
