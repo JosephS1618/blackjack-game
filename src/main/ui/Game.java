@@ -1,11 +1,11 @@
 package ui;
 
-import model.Card;
 import model.Dealer;
 import model.Deck;
 import model.Player;
 
 import java.util.Collections;
+import java.util.Scanner;
 
 //Controls aspects of the game, including creating new decks,
 // keeping track of cash, and keeping game logs/stats.
@@ -28,51 +28,59 @@ public class Game {
         win = false;
     }
 
+    @SuppressWarnings("methodlength")
     public void startGame(int select) {
+        Scanner input = new Scanner(System.in);
         newDeck = new Deck(select);
         player = new Player();
         dealer = new Dealer();
 
         shuffle();
-        firstDraw();
-
-        //TODO ask user for cash
-
+        firstDeal();
+        //TODO ask user for cash bet
         do {
-            if (player.playerSum() == 21) {
+            if ((player.playerSum() > 21 && dealer.dealerSum() > 21)
+                    || (player.playerSum() == 21 && dealer.dealerSum() == 21)) { // If there is a tie
+                System.out.println("Standoff, bets are returned");
+                play = false;
+            } else if (player.playerSum() > 21) { // if the player busts
+                System.out.println("Dealer wins!");
+                play = false;
+            } else if (player.playerSum() == 21) { // if the player gets a blackjack
                 System.out.println("Blackjack!");
                 win = true;
                 play = false;
+            } else if (dealer.dealerSum() > 21) { // if the dealer busts
+                System.out.println("You win!");
+                win = true;
+                play = false;
+            } else if (player.getCardSymbol(0) == player.getCardSymbol(1)) { // in case of split
+                System.out.println("Split?\n1: yes\n2: no");
+                play = false; //break for now
+                //TODO
+            } else {
+                while (player.playerSum() < 21) {
+                    System.out.println("Hit (1), Stand (2)");
+                    int enter = input.nextInt();
+
+                }
             }
         } while (play);
 
     }
 
-    //REQUIRES: not an empty deck
-    //EFFECTS: gets and returns the first card of the deck
-    private Card getFirstCardInDeck() {
-        return newDeck.getCardDeck().get(0);
-    }
-
-    //REQUIRES: not an empty deck
-    //MODIFIES: deck
-    //EFFECTS: removes the first card of the deck
-    private void removeFirstCardInDeck() {
-        newDeck.getCardDeck().remove(0);
-    }
-
     //MODIFIES: deck
     //EFFECTS: draws two cards each for the player and the dealer.
     // prints the card drawn but hiding the dealer's second card
-    private void firstDraw() {
+    private void firstDeal() {
         for (int i = 0; i < 2; i++) {
-            player.addCard(getFirstCardInDeck());
-            removeFirstCardInDeck();
-            dealer.addCard(getFirstCardInDeck());
-            removeFirstCardInDeck();
+            player.addCard(newDeck.getFirstCardInDeck());
+            newDeck.removeFirstCardInDeck();
+            dealer.addCard(newDeck.getFirstCardInDeck());
+            newDeck.removeFirstCardInDeck();
         }
-        System.out.println("Your cards: ");
-        System.out.println("Dealer's card: " + " and X");
+        System.out.println("Your cards: " + player.getCardSymbol(0) + "," + player.getCardSymbol(1));
+        System.out.println("Dealer's card: " + dealer.getCardSymbol(0) + "," + dealer.getCardSymbol(1));
     }
 
     // MODIFIES: this

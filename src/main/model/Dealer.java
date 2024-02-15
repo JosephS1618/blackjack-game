@@ -50,4 +50,8 @@ public class Dealer {
     public List<Card> getDealerCards() {
         return dealerCards;
     }
+
+    public String getCardSymbol(int index) {
+        return dealerCards.get(index).getSymbol();
+    }
 }

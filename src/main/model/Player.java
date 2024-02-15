@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Player {
     private List<Card> playerCards; //cards that the player holds
+    private List<Card> splitCards; //TODO
 
     //Constructor
     //EFFECTS: creates a new list for the player to hold cards
@@ -50,6 +51,10 @@ public class Player {
 
     public List<Card> getPlayerCards() {
         return playerCards;
+    }
+
+    public String getCardSymbol(int index) {
+        return playerCards.get(index).getSymbol();
     }
 
 }

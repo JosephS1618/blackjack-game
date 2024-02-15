@@ -93,4 +93,19 @@ public class Deck {
         return cardDeck;
     }
 
+    //REQUIRES: not an empty deck
+    //EFFECTS: gets and returns the first card of the deck
+    public Card getFirstCardInDeck() {
+        return cardDeck.get(0);
+        //TODO write tests
+    }
+
+    //REQUIRES: not an empty deck
+    //MODIFIES: this
+    //EFFECTS: removes the first card of the deck
+    public void removeFirstCardInDeck() {
+        cardDeck.remove(0);
+        //TODO write tests
+    }
+
 }
