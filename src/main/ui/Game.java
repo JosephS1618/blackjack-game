@@ -1,5 +1,6 @@
 package ui;
 
+import model.Card;
 import model.Dealer;
 import model.Deck;
 import model.Player;
@@ -34,13 +35,15 @@ public class Game {
         newDeck = new Deck(select);
         player = new Player();
         dealer = new Dealer();
+        Boolean stand = false;
+        int choice;
 
         shuffle();
         firstDeal();
         //TODO ask user for cash bet
         do {
-            if ((player.playerSum() > 21 && dealer.dealerSum() > 21)
-                    || (player.playerSum() == 21 && dealer.dealerSum() == 21)) { // If there is a tie
+            printHands(stand);
+            if (player.playerSum() == 21 && dealer.dealerSum() == 21) { // If there is a tie
                 System.out.println("Standoff, bets are returned");
                 play = false;
             } else if (player.playerSum() > 21) { // if the player busts
@@ -58,16 +61,43 @@ public class Game {
                 System.out.println("Split?\n1: yes\n2: no");
                 play = false; //break for now
                 //TODO
+            } else if (stand && (player.playerSum() < dealer.dealerSum())) { // dealer is closer to 21
+                System.out.println("Dealer wins!");
+                play = false;
+            } else if (stand && (player.playerSum() > dealer.dealerSum())) { // player is closer to 21
+                System.out.println("Player wins!");
+                win = true;
+                play = false;
             } else {
-                while (player.playerSum() < 21) {
-                    System.out.println("Hit (1), Stand (2)");
-                    int enter = input.nextInt();
-
+                System.out.println("Hit (1), Stand (2)"); // either hit or stand.
+                choice = input.nextInt();
+                stand = hitOrStand(choice);
+                if (stand) {
+                    dealerPlay(); // dealer draws until over 17
                 }
             }
         } while (play);
 
     }
+
+    private void printHands(Boolean stand) {
+        String yourHand = "";
+        String dealerHand = "";
+        for (Card c : player.getPlayerCards()) {
+            yourHand += " " + c.getSymbol();
+        }
+        if (stand == true) { //doesn't show the dealer's full hands until you stand.
+            for (Card c : dealer.getDealerCards()) {
+                dealerHand += " " + c.getSymbol();
+            }
+        } else {
+            dealerHand += " " + dealer.getCardSymbol(0);
+        }
+
+        System.out.println("Your cards:" + yourHand);
+        System.out.println("Dealer's card:" + dealerHand);
+    }
+
 
     //MODIFIES: deck
     //EFFECTS: draws two cards each for the player and the dealer.
@@ -79,8 +109,25 @@ public class Game {
             dealer.addCard(newDeck.getFirstCardInDeck());
             newDeck.removeFirstCardInDeck();
         }
-        System.out.println("Your cards: " + player.getCardSymbol(0) + "," + player.getCardSymbol(1));
-        System.out.println("Dealer's card: " + dealer.getCardSymbol(0) + "," + dealer.getCardSymbol(1));
+    }
+
+    //REQUIRES: choice of integer 1 or 2
+    //MODIFIES: stand
+    //EFFECTS: either hits or stands. if choice is 1, hit (returns false). if choice is 2, stand (returns true)
+    private boolean hitOrStand(int choice) {
+        if (choice == 1) {
+            player.addCard(newDeck.getFirstCardInDeck());
+        } else if (choice == 2) {
+            return true;
+        }
+        return false;
+    }
+
+    private void dealerPlay() {
+        while (dealer.dealerSum() < 17) {
+            dealer.addCard(newDeck.getFirstCardInDeck());
+            newDeck.removeFirstCardInDeck();
+        }
     }
 
     // MODIFIES: this
