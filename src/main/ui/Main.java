@@ -12,26 +12,27 @@ public class Main {
         Game game = new Game();
         int select;
 
-        System.out.println("BLACKJACK");
-
         while (true) {
-            System.out.println("-------------------------------");
-            System.out.println("SCORE: $" + game.getCash());
+            System.out.println("-------------------------------\nSCORE: $" + game.getCash());
             System.out.println("0. Quit \n1. Classic Mode (one deck)\n2. Party Mode (six decks)\n3. View Game log");
             select = input.nextInt();
 
             if (select == 0) {
                 break;
+            } else if  (select == 3) {
+                if (game.getGameLog().isEmpty()) {
+                    System.out.println("No games played yet");
+                } else {
+                    game.printGameStatsLog();
+                }
+            } else if (select == 1 || select == 2) {
+                game.startGame(select);
             }
-
-            game.startGame(select);
 
             if (game.getCash() == 0) {
                 System.out.println("SCORE: 0\nGAME OVER\n...\nGAME RESETS");
                 game = new Game();
             }
         }
-
-        System.out.println("Thanks for playing");
     }
 }

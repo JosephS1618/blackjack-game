@@ -19,7 +19,10 @@ public class Game {
     private int bettingAmount;
     private Boolean play; //false = end game. true = continue game
     private Boolean stand;
-    private Scanner input = new Scanner(System.in);
+    private double wins;
+    private double losses;
+    private double ties;
+    Scanner input = new Scanner(System.in);
 
     //Constructor
     //Effects: gives starting cash of 500.
@@ -172,6 +175,8 @@ public class Game {
             cash += bettingAmount * 2;
         }
         play = false;
+        addWins();
+        addGameLog(true, false, cash, bettingAmount);
     }
 
     //MODIFIES: this
@@ -180,6 +185,8 @@ public class Game {
     private void playerLoses(String description) {
         System.out.println(description + " Dealer wins.");
         play = false;
+        addLosses();
+        addGameLog(false, true, cash, -bettingAmount);
     }
 
     //MODIFIES: this
@@ -189,12 +196,28 @@ public class Game {
         System.out.println("Standoff! Bets are returned.");
         cash += bettingAmount;
         play = false;
+        addTies();
+        addGameLog(true, true, cash, 0);
     }
 
     // MODIFIES: this
-    // EFFECTS: keeps track of the outcome of a game.
-    private void gameLog() {
-        //TODO
+    // EFFECTS: creates a new game log.
+    public void addGameLog(boolean won, boolean loss, int cashLog, double difference) {
+        Log newLog = new Log(won, loss, cashLog, difference);
+        gameLog.add(newLog);
+    }
+
+    public void printGameStatsLog() {
+        int count = 0;
+
+        double winPercent = (getWins() + getTies()) / (getLosses() + getTies() + getWins()) * 100;
+        System.out.println("Win rate: " + winPercent + "%");
+
+        for (Log l : gameLog) {
+            count++;
+            System.out.println("Game - " + count);
+            System.out.println(l.winLossStatus() + " - Score: " + l.getCashLog() + " - Diff: " + l.getDifference());
+        }
     }
 
     //REQUIRES: the deck is not empty
@@ -208,4 +231,31 @@ public class Game {
         return cash;
     }
 
+    public double getWins() {
+        return wins;
+    }
+
+    public double getLosses() {
+        return losses;
+    }
+
+    public double getTies() {
+        return ties;
+    }
+
+    public void addWins() {
+        wins++;
+    }
+
+    public void addLosses() {
+        losses++;
+    }
+
+    public void addTies() {
+        ties++;
+    }
+
+    public List<Log> getGameLog() {
+        return gameLog;
+    }
 }
