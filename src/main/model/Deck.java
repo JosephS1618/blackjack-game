@@ -5,20 +5,21 @@ import java.util.List;
 
 // Creates a new shuffled card deck. Either a single deck (classic mode) or six decks (party mode).
 public class Deck {
-    private List<Card> deck;
+    private List<Card> cardDeck;
 
-    //EFFECTS: creates a new deck of cards with either 52 cards (classic) or 312 cards (party) and shuffles it
+    //EFFECTS: creates a new deck of cards with either 52 cards (classic) or 312 cards (party)
     public Deck(int select) {
-        deck = new ArrayList<>();
+        cardDeck = new ArrayList<>();
 
         if (select == 1) {
             makeClassicDeck();
         } else if (select == 2) {
             makePartyDeck();
         }
-        shuffle();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Creates a deck of 52 cards each with value, symbol and suit.
     private void makeClassicDeck() {
         for (int suit = 1; suit < 5; suit++) { //making each suit
             for (int value = 1; value < 14; value++) { //making each card in suit
@@ -27,11 +28,22 @@ public class Deck {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Combines 6 deck for 312 cards each with value, symbol and suit.
     private void makePartyDeck() {
-        //do later
+        makeClassicDeck();
+        List<Card> tempDeck = new ArrayList<>();
+        for (int x = 0; x < 6; x++) { // change the x limit to make a deck of any size
+            for (int y = 0; y < 52; y++) {
+                tempDeck.add(cardDeck.get(y));
+            }
+        }
+
+        cardDeck = tempDeck;
     }
 
     //REQUIRES: number between 1-13
+    //EFFECTS: assigns a suit based on the given suit number
     private void makeSuit(int suit, int number) {
         switch (suit) {
             case 1:
@@ -49,6 +61,9 @@ public class Deck {
         }
     }
 
+    //REQUIRES: suit is char 'D', 'C', 'H', or 'S', int number is between 1 and 13
+    //MODIFIES: this, card
+    //EFFECTS: creates card of number, symbol and suit.
     private void makeCard(char suit, int number) {
         Card card = null;
 
@@ -64,22 +79,16 @@ public class Deck {
             card = new Card(10, "K", suit);
         }
 
-        deck.add(card);
+        cardDeck.add(card);
     }
 
-    //REQUIRES: the deck is not empty
-    //MODIFIES: this
-    //EFFECTS: Shuffles the deck.
-    private void shuffle() {
-        //
+    //EFFECTS: returns the integer size of the deck.
+    public int cardDeckSize() {
+        return cardDeck.size();
     }
 
-    public int deckSize() {
-        return deck.size();
-    }
-
-    public List<Card> getDeck() {
-        return deck;
+    public List<Card> getCardDeck() {
+        return cardDeck;
     }
 
 }
