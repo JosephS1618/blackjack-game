@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// Specifications for the cards that the dealer hold, as well as the logic behind calculating the sum of the
+// dealer cards.
 public class Dealer {
     private List<Card> dealerCards; //cards that the player holds
 

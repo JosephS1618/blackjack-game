@@ -13,7 +13,7 @@ public class Main {
         int select;
 
         while (true) {
-            System.out.println("-------------------------------\nSCORE: $" + game.getCash());
+            System.out.println("----------BLACKJACK----------\nSCORE: $" + game.getCash());
             System.out.println("0. Quit \n1. Classic Mode (one deck)\n2. Party Mode (six decks)\n3. View Game log");
             select = input.nextInt();
 

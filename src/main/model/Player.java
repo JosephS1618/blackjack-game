@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// Specifications for the cards that the players hold, as well as the logic behind calculating the sum of the
+// players cards.
 public class Player {
     private List<Card> playerCards; //cards that the player holds
 
@@ -50,10 +52,6 @@ public class Player {
 
     public List<Card> getPlayerCards() {
         return playerCards;
-    }
-
-    public String getCardSymbol(int index) {
-        return playerCards.get(index).getSymbol();
     }
 
 

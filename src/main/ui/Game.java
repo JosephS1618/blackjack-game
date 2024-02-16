@@ -11,17 +11,20 @@ import java.util.Scanner;
 // keeping track of cash, and keeping game logs/stats.
 public class Game {
     private static final int STARTING_CASH = 500; //starting cash for a new game
+
     private Deck newDeck;
     private Player player;
     private Dealer dealer;
-    private List<Log> gameLog;
+
     private int cash;
     private int bettingAmount;
     private Boolean play; //false = end game. true = continue game
-    private Boolean stand;
+    private Boolean stand; //false = don't stand. true = stand
+
+    private List<Log> gameLog;
     private double wins;
     private double losses;
-    private double ties;
+
     Scanner input = new Scanner(System.in);
 
     //Constructor
@@ -35,6 +38,19 @@ public class Game {
     //MODIFIES: this, Deck cardDeck, Player playerCards, Dealer dealerCards.
     //EFFECTS: sets up the game, controls game logic, controls bets, outputs win, loss, tie.
     public void startGame(int select) {
+        setUpNewGame(select);
+        shuffle(); // shuffles the deck
+        firstDeal(); //gives player and dealer two cards each
+        makeBet();
+
+        do {
+            printHands();
+            playGame(player.playerSum(), dealer.dealerSum());
+        } while (play);
+        printEndHand();
+    }
+
+    public void setUpNewGame(int select) {
         newDeck = new Deck();
         player = new Player();
         dealer = new Dealer();
@@ -47,29 +63,38 @@ public class Game {
         } else if (select == 2) {
             newDeck.makePartyDeck();
         }
+    }
 
-        shuffle(); // shuffles the deck
-        firstDeal(); //gives player and dealer two cards each
-        makeBet();
+    //REQUIRES: the deck is not empty
+    //MODIFIES: this
+    //EFFECTS: Shuffles the deck in random order.
+    private void shuffle() {
+        Collections.shuffle(newDeck.getCardDeck());
+    }
 
-        do {
-            printHands();
-            playGame(player.playerSum(), dealer.dealerSum());
-        } while (play);
-        printEndHand();
+    //MODIFIES: deck
+    //EFFECTS: draws two cards each for the player and the dealer.
+    // prints the card drawn but hiding the dealer's second card
+    public void firstDeal() {
+        for (int i = 0; i < 2; i++) {
+            player.addCard(newDeck.getFirstCardInDeck());
+            newDeck.removeFirstCardInDeck();
+            dealer.addCard(newDeck.getFirstCardInDeck());
+            newDeck.removeFirstCardInDeck();
+        }
     }
 
     //MODIFIES: this
     //EFFECTS: takes in a user inputted betting amount and removes it from their total cash
     private void makeBet() {
-
         int choice = cash + 1;
+
         System.out.println("Betting amount:" + " max (" + cash + ")");
-        while (choice > cash || choice == 0) {
+        while (choice > cash || choice <= 0) {
             choice = input.nextInt();
             if (choice > cash) {
                 System.out.println("Must be less than the maximum!");
-            } else if (choice == 0) {
+            } else if (choice <= 0) {
                 System.out.println("Bet must be greater than zero!");
             }
         }
@@ -104,7 +129,7 @@ public class Game {
             playerWins("Dealer busts!", false);
         } else if (stand && (playSum < dealSum)) { // stand and dealer is closer to 21
             playerLoses("Dealer closer to 21.");
-        } else if (stand && (playSum > dealSum)) { // stand and player is closer to 21
+        } else if (stand) { // stand and player is closer to 21 (true regardless)
             playerWins("You're closer to 21!", false);
         } else {
             stand = hitOrStand();
@@ -122,19 +147,6 @@ public class Game {
             dealerHand += " " + c.getSymbol();
         }
         System.out.println(dealerHand + " (" + dealer.dealerSum() + ")");
-    }
-
-
-    //MODIFIES: deck
-    //EFFECTS: draws two cards each for the player and the dealer.
-    // prints the card drawn but hiding the dealer's second card
-    private void firstDeal() {
-        for (int i = 0; i < 2; i++) {
-            player.addCard(newDeck.getFirstCardInDeck());
-            newDeck.removeFirstCardInDeck();
-            dealer.addCard(newDeck.getFirstCardInDeck());
-            newDeck.removeFirstCardInDeck();
-        }
     }
 
     //REQUIRES: choice of integer 1 or 2
@@ -163,6 +175,7 @@ public class Game {
         }
     }
 
+    //REQUIRES: boolean blackjack is not null.
     //MODIFIES: this
     //EFFECTS: prints out a win statement. returns game wins.
     // if win and blackjack, returns 3:2 amount. otherwise match bet 1:1
@@ -196,7 +209,6 @@ public class Game {
         System.out.println("Standoff! Bets are returned.");
         cash += bettingAmount;
         play = false;
-        addTies();
         addGameLog(true, true, cash, 0);
     }
 
@@ -207,24 +219,18 @@ public class Game {
         gameLog.add(newLog);
     }
 
+    //EFFECTS: prints the win/loss percent and previous games status, score, and difference.
     public void printGameStatsLog() {
         int count = 0;
 
-        double winPercent = (getWins() + getTies()) / (getLosses() + getTies() + getWins()) * 100;
-        System.out.println("Win rate: " + winPercent + "%");
+        double winPercent = (getWins() / (getLosses() + getWins())) * 100;
+        System.out.println("Win rate: " + Math.round(winPercent) + "%");
 
         for (Log l : gameLog) {
             count++;
-            System.out.println("Game - " + count);
+            System.out.println("Game " + count);
             System.out.println(l.winLossStatus() + " - Score: " + l.getCashLog() + " - Diff: " + l.getDifference());
         }
-    }
-
-    //REQUIRES: the deck is not empty
-    //MODIFIES: this
-    //EFFECTS: Shuffles the deck in random order.
-    private void shuffle() {
-        Collections.shuffle(newDeck.getCardDeck());
     }
 
     public int getCash() {
@@ -239,20 +245,12 @@ public class Game {
         return losses;
     }
 
-    public double getTies() {
-        return ties;
-    }
-
     public void addWins() {
         wins++;
     }
 
     public void addLosses() {
         losses++;
-    }
-
-    public void addTies() {
-        ties++;
     }
 
     public List<Log> getGameLog() {

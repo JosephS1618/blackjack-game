@@ -3,7 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Creates a new shuffled card deck. Either a single deck (classic mode) or six decks (party mode).
+// Creates a new shuffled card deck. Either a single deck (classic mode) or six decks (party mode). Each card object is
+// stored in an array list cardDeck.
 public class Deck {
     private List<Card> cardDeck;
 
