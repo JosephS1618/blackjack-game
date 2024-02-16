@@ -24,10 +24,8 @@ public class Log {
             return "Tie";
         } else if (isWon()) {
             return "Win";
-        } else if (isLoss()) {
-            return "Lose";
         } else {
-            return null;
+            return "Lose";
         }
     }
 

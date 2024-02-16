@@ -31,4 +31,16 @@ public class LogTest {
     void winLossStatusTieTest() {
         assertEquals("Tie", log3.winLossStatus());
     }
+
+    @Test
+    void getCashLogTest() {
+        assertEquals(100, log1.getCashLog());
+        assertEquals(500, log2.getCashLog());
+    }
+
+    @Test
+    void getDifferenceTest() {
+        assertEquals(10, log1.getDifference());
+        assertEquals(100, log2.getDifference());
+    }
 }

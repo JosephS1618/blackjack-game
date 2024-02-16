@@ -82,4 +82,27 @@ public class DealerTest {
         dealer1.addCard(five);
         assertEquals(null, dealer1.findAce());
     }
+
+    @Test
+    void getCardSymbolTest() {
+        dealer1.addCard(ace1);
+        assertEquals("A", dealer1.getCardSymbol(0));
+    }
+
+    @Test
+    void getCardSymbolMultipleTest() {
+        dealer1.addCard(ace1);
+        dealer1.addCard(five);
+        assertEquals("A", dealer1.getCardSymbol(0));
+        assertEquals("5", dealer1.getCardSymbol(1));
+    }
+
+    @Test
+    void getCardValueTest() {
+        dealer1.addCard(ace1);
+        dealer1.addCard(five);
+        assertEquals(11, dealer1.getCardValue(0));
+        assertEquals(5, dealer1.getCardValue(1));
+    }
+
 }
