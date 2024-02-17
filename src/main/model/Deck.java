@@ -3,19 +3,18 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Creates a new shuffled card deck. Either a single deck (classic mode) or six decks (party mode). Each card object is
-// stored in an array list cardDeck.
+// Creates a new shuffled card deck. Either a single deck (classic mode) or six decks (party mode).
+// Each card object is stored in an array list cardDeck.
 public class Deck {
     private List<Card> cardDeck;
 
-    //REQUIRES: input is either 1 or 2
-    //EFFECTS: creates a new empty deck of cards
+    //EFFECTS: creates a new empty arrayList for Card objects
     public Deck() {
         cardDeck = new ArrayList<>();
     }
 
     // MODIFIES: this
-    // EFFECTS: Creates a deck of 52 cards each with value, symbol and suit.
+    // EFFECTS: Creates 52 cards each with value, symbol and suit.
     public void makeClassicDeck() {
         for (int suit = 1; suit < 5; suit++) { //making each suit
             for (int value = 1; value < 14; value++) { //making each card in suit
@@ -27,14 +26,14 @@ public class Deck {
     // MODIFIES: this
     // EFFECTS: Combines 6 deck for 312 cards each with value, symbol and suit.
     public void makePartyDeck() {
-        makeClassicDeck();
         List<Card> tempDeck = new ArrayList<>();
-        for (int x = 0; x < 6; x++) { // change the x limit to make a deck of any size
+        for (int x = 0; x < 6; x++) { // change the x limit to make a deck of any multiple
+            makeClassicDeck();
             for (int y = 0; y < 52; y++) {
                 tempDeck.add(cardDeck.get(y));
             }
+            cardDeck.clear();
         }
-
         cardDeck = tempDeck;
     }
 
@@ -59,7 +58,7 @@ public class Deck {
 
     //REQUIRES: suit is char 'D', 'C', 'H', or 'S', int number is between 1 and 13
     //MODIFIES: this, card
-    //EFFECTS: creates card of number, symbol and suit.
+    //EFFECTS: creates card of number, symbol and suit. adds card to cardDeck
     public void makeCard(char suit, int number) {
         Card newCard = null;
 
@@ -78,7 +77,7 @@ public class Deck {
         cardDeck.add(newCard);
     }
 
-    //EFFECTS: returns the integer size of the deck.
+    //EFFECTS: returns the integer size of cardDeck.
     public int cardDeckSize() {
         return cardDeck.size();
     }
@@ -88,14 +87,14 @@ public class Deck {
     }
 
     //REQUIRES: cardDeckSize > 0
-    //EFFECTS: gets and returns the first card of the deck
+    //EFFECTS: gets and returns the card in index 0 of cardDeck
     public Card getFirstCardInDeck() {
         return cardDeck.get(0);
     }
 
     //REQUIRES: cardDeckSize > 0
     //MODIFIES: this
-    //EFFECTS: removes the first card of the deck
+    //EFFECTS: removes the card in index 0 of cardDeck
     public void removeFirstCardInDeck() {
         cardDeck.remove(0);
     }

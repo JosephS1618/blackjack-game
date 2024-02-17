@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class DeckTest {
     private Deck deck1;
@@ -176,6 +177,12 @@ class DeckTest {
         assertEquals(2, deck1.getFirstCardInDeck().getNumber());
         assertEquals("2", deck1.getFirstCardInDeck().getSymbol());
         assertEquals('D', deck1.getFirstCardInDeck().getSuit());
+    }
+
+    @Test
+    void makePartyDeckDifferentObjectTest() {
+        deck1.makePartyDeck();
+        assertNotEquals(deck1.getCardDeck().get(0), deck1.getCardDeck().get(52));
     }
 
 }

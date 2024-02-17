@@ -3,8 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Specifications for the cards that the players hold, as well as the logic behind calculating the sum of the
-// players cards.
+// Specifications for the cards that the players hold, as well as the logic
+// behind calculating the sum of the players cards.
 public class Player {
     private List<Card> playerCards; //cards that the player holds
 
@@ -14,8 +14,9 @@ public class Player {
         playerCards = new ArrayList<>();
     }
 
-    //REQUIRES: player cards are not empty
-    //EFFECTS: returns the sum of the players card numbers.
+    //REQUIRES: playerCards size > 0
+    //EFFECTS: returns the sum of the players card numbers. if player has an ace and the sum is over 21,
+    // calls playerSumWithAce.
     public int playerSum() {
         int sum = 0;
 
@@ -29,7 +30,8 @@ public class Player {
         return sum;
     }
 
-    //EFFECTS: if players hand contains an ace, and they hit over 21, change the ace to a 1 and return the new sum.
+    //EFFECTS: if players hand contains an ace, and they hit over 21, change the first ace to a 1 and returns playerSum
+    // with the new change. If necessary, multiple aces will be changed through each pass of playerSum.
     public int playerSumWithAce() {
         findAce().setNumber(1); //changes ace from 11 to 1
         return playerSum();

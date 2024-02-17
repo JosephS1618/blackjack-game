@@ -3,8 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Specifications for the cards that the dealer hold, as well as the logic behind calculating the sum of the
-// dealer cards.
+// Specifications for the cards that the dealer hold, as well as the logic
+// behind calculating the sum of the dealer cards.
 public class Dealer {
     private List<Card> dealerCards; //cards that the player holds
 
@@ -14,22 +14,24 @@ public class Dealer {
         dealerCards = new ArrayList<>();
     }
 
-    //REQUIRES: dealer cards are not empty
-    //EFFECTS: returns the sum of the dealers card numbers.
+    //REQUIRES: dealerCards size > 0
+    //EFFECTS: returns the sum of the dealers card numbers. if player has an ace and the sum is over 21,
+    // calls dealerSumWithAce.
     public int dealerSum() {
         int sum = 0;
 
         for (Card c : dealerCards) {
             sum += c.getNumber();
         }
-        if (sum > 21 && (findAce() != null)) { //if the player has a 11 and they bust.
+        if (sum > 21 && (findAce() != null)) { //if the player has an 11 and they bust.
             return dealerSumWithAce();
         }
 
         return sum;
     }
 
-    //EFFECTS: if players hand contains an ace, and they hit over 21, change the ace to a 1 and return the new sum.
+    //EFFECTS: if players hand contains an ace, and they hit over 21, change the first ace to a 1 and returns dealerSum
+    // with the new change. If necessary, multiple aces will be changed through each pass of dealerSum.
     public int dealerSumWithAce() {
         findAce().setNumber(1); //changes ace from 11 to 1
         return dealerSum();
