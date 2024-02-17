@@ -11,7 +11,7 @@
   - I'm an avid black jack player and I loved watching the movie 21 (even though I can't card count). 
 
 **User Stories**
-- As a user, I want to be able to select a game difficulty that adds an indefinite number of decks to the game (each added deck increases the difficulty).
-- As a user, I want to be able to view a list of past games and their outcomes, showing cash gained/lost and other useful statistics. 
+- As a user, I want to be able to select a game difficulty that adds up to six decks to the game (each added deck increases the difficulty).
+- As a user, I want to be able to view a list of past games and their outcomes, showing cash gained/lost.
 - As a user, I want to be able to see overall player statistics such as tracking virtual money, win rate, play accuracy.
 - As a user, I want to be able to have the option of resetting their progress (cash, statistics), or automatically doing so when they run out of money.
