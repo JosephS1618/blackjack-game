@@ -1,7 +1,7 @@
 package model;
 
-// Specifications for a single card in a deck. Contains two values, an integer number and
-// a char representing its symbol.
+// Specifications for a single card in a deck. Contains three values, an integer number and
+// a String representing its symbol, and a char representing its suit
 public class Card {
     // Ace is worth 1 or 11 but is instantiated as 11, face worth 10, rest of cards are their respective numbers.
     private int number; // {1-11}
