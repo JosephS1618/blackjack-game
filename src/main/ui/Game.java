@@ -201,12 +201,14 @@ public class Game {
         System.out.println(description + " Player wins!");
         if (blackjack) {
             cash += bettingAmount * 2.5;
+            addGameLog(true, false, cash, (bettingAmount * 1.5));
         } else {
             cash += bettingAmount * 2;
+            addGameLog(true, false, cash, bettingAmount);
         }
         play = false;
         addWins();
-        addGameLog(true, false, cash, bettingAmount);
+
     }
 
     //MODIFIES: this
