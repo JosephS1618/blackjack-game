@@ -1,7 +1,3 @@
-# CPSC 210 Personal Project
-
-## Phase 0:
-
 **About The Project**:
 - _What will the application do?_
   - My application is a Java based blackjack game that can be played from the terminal or from a GUI. The game will keep track of the player's virtual money, as well as useful statistics such as win rate and play accuracy (according to the strategy chart).
