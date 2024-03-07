@@ -1,7 +1,12 @@
 package ui;
 
 import model.*;
+import org.json.JSONObject;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+import persistence.Writable;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,10 +14,11 @@ import java.util.Scanner;
 
 //Controls aspects of the game, including creating new decks, starting game, game logic,
 // keeping track of cash, and keeping game logs/stats.
-public class Game {
+public class Game implements Writable {
     private static final int STARTING_CASH = 500; //starting cash for a new game
+    private static final String JSON_STORE = "./data/gameTest.json";
 
-    private Deck newDeck;
+    private Deck gameDeck;
     private Player player;
     private Dealer dealer;
 
@@ -25,13 +31,19 @@ public class Game {
     private double wins;
     private double losses;
 
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+
     Scanner input = new Scanner(System.in);
 
     //Constructor
     //EFFECTS: assigns STARTING_CASH to cash, creates a new empty list of gameLogs.
-    public Game() {
+    public Game() throws FileNotFoundException {
         cash = STARTING_CASH;
         gameLog = new ArrayList<>();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        runInput();
+        //TODO jsonReader = new JsonReader(JSON_STORE);
     }
 
     //REQUIRES: select either 1 or 2
@@ -39,16 +51,12 @@ public class Game {
     //EFFECTS: sets up the game, controls game logic (calling playGame),
     // controls bets (makeBet), outputs win, loss, tie. Prints dealer and player hands
     // in printHands and printEndHand.
-    public void startGame(int select) {
-        setUpNewGame(select);
-        shuffle(); // shuffles the deck
-        firstDeal(); // gives player and dealer two cards each
-        makeBet(); // asks user for bet
-
+    public void runGame() {
         do {
             printHands(); // prints your entire hand and the first card of the dealer
             playGame(player.playerSum(), dealer.dealerSum()); // main game logic
         } while (play);
+
         printEndHand(); // prints the dealers entire hand.
     }
 
@@ -56,7 +64,7 @@ public class Game {
     //EFFECTS: sets up objects required for a new game. also sets up a new deck based on input 1 or 2.
     // (1) classic deck or (2) party deck. sets up starting variables play, stand, and bettingAmount.
     public void setUpNewGame(int select) {
-        newDeck = new Deck();
+        gameDeck = new Deck();
         player = new Player();
         dealer = new Dealer();
         play = true;
@@ -64,29 +72,89 @@ public class Game {
         bettingAmount = 0;
 
         if (select == 1) {
-            newDeck.makeClassicDeck();
+            gameDeck.makeClassicDeck();
         } else if (select == 2) {
-            newDeck.makePartyDeck();
+            gameDeck.makePartyDeck();
+        }
+
+        shuffle(); // shuffles the deck
+        firstDeal(); // gives player and dealer two cards each
+        makeBet(); // asks user for bet
+    }
+
+    // MODIFIES: this
+    // EFFECTS: runs user input. If the player cash == 0, cash is reset.
+    private void runInput() {
+        boolean run = true;
+        int select = 0;
+        input = new Scanner(System.in);
+
+        while (run) {
+            displayMenu();
+            select = input.nextInt();
+
+            if (select == 0) {
+                run = false;
+            } else {
+                processInput(select);
+            }
+
+            if (cash == 0) {
+                System.out.println("SCORE: 0\nGAME OVER\n...\nGAME RESETS");
+                cash = STARTING_CASH; //TODO change this ability
+            }
+        }
+        System.out.println("\nThanks for playing!");
+    }
+
+    //
+    public void processInput(int input) {
+        if (input == 1 || input == 2) {
+            setUpNewGame(input);
+            runGame();
+        } else if (input == 3) {
+            if (gameLog.isEmpty()) {
+                System.out.println("No games played yet");
+            } else {
+                printGameStatsLog();
+            }
+        } else if (input == 4) {
+            saveGame();
+        } else if (input == 5) {
+            //TODO
+        } else {
+            System.out.println("Invalid input");
         }
     }
 
-    //REQUIRES: newDeck is not empty
+    // EFFECTS: displays menu of options to user
+    private void displayMenu() {
+        System.out.println("----------BLACKJACK----------\nSCORE: $" + cash);
+        System.out.println("0. Quit ");
+        System.out.println("1. Classic Mode (one deck)");
+        System.out.println("2. Party Mode (six decks)");
+        System.out.println("3. View Game log");
+        System.out.println("4. Save Game");
+        System.out.println("5. Load Game");
+    }
+
+    //REQUIRES: gameDeck is not empty
     //MODIFIES: this
-    //EFFECTS: Shuffles newDeck in random order.
+    //EFFECTS: Shuffles gameDeck in random order.
     private void shuffle() {
-        Collections.shuffle(newDeck.getCardDeck());
+        Collections.shuffle(gameDeck.getCardDeck());
     }
 
     //MODIFIES: this, playerCard, dealerCard
     //EFFECTS: draws two cards each for the player and the dealer.
     // Alternates adding the first card to playerCards and dealerCards twice. Removes
-    // the added cards from newDeck after each add.
+    // the added cards from gameDeck after each add.
     public void firstDeal() {
         for (int i = 0; i < 2; i++) {
-            player.addCard(newDeck.getFirstCardInDeck());
-            newDeck.removeFirstCardInDeck();
-            dealer.addCard(newDeck.getFirstCardInDeck());
-            newDeck.removeFirstCardInDeck();
+            player.addCard(gameDeck.getFirstCardInDeck());
+            gameDeck.removeFirstCardInDeck();
+            dealer.addCard(gameDeck.getFirstCardInDeck());
+            gameDeck.removeFirstCardInDeck();
         }
     }
 
@@ -165,16 +233,16 @@ public class Game {
     }
 
     //REQUIRES: choice of integer 1 or 2
-    //MODIFIES: stand, newDeck, playerCards
+    //MODIFIES: stand, gameDeck, playerCards
     //EFFECTS: either hits or stands. if choice is 1, hit (returns false). if choice is 2, stand (returns true)
-    // hitting adds a card to the playerHand and removes a card from newDeck.
+    // hitting adds a card to the playerHand and removes a card from gameDeck.
     private boolean hitOrStand() {
         System.out.println("Hit (1), Stand (2)"); // either hit or stand.
         int choice = input.nextInt();
 
         if (choice == 1) {
-            player.addCard(newDeck.getFirstCardInDeck());
-            newDeck.removeFirstCardInDeck();
+            player.addCard(gameDeck.getFirstCardInDeck());
+            gameDeck.removeFirstCardInDeck();
             return false; // hit
         } else {
             return true; // stand
@@ -186,8 +254,8 @@ public class Game {
     //EFFECTS: Dealer draws cards until over 16. If ace is added and 16 < dealerSum < 21 then ace stays 11
     private void dealerPlay() {
         while (dealer.dealerSum() < 17) {
-            dealer.addCard(newDeck.getFirstCardInDeck());
-            newDeck.removeFirstCardInDeck();
+            dealer.addCard(gameDeck.getFirstCardInDeck());
+            gameDeck.removeFirstCardInDeck();
         }
     }
 
@@ -278,4 +346,26 @@ public class Game {
     public List<Log> getGameLog() {
         return gameLog;
     }
+
+
+    private void saveGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.writeGame(this);
+            //TODO write the other json saved
+            jsonWriter.close();
+            System.out.println("Saved to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("cash", cash);
+        return json;
+    }
+
+
 }
