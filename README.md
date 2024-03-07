@@ -15,3 +15,5 @@
 - As a user, I want to be able to view a list of past games and their outcomes, showing cash gained/lost.
 - As a user, I want to be able to see overall player statistics such as tracking virtual money, win rate, play accuracy.
 - As a user, I want to be able to have the option of resetting their progress (cash, statistics), or automatically doing so when they run out of money.
+- As a user, I want to be able to save the state of the game that they are currently playing (score, cards, deck, stats) or have the option to not save.
+- As a user, I want to be able to have the option to retrieve the last saved game state from file and continue exactly where they left off. 
