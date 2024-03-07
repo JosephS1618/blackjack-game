@@ -1,1 +1,25 @@
-{"cash": 700}
+{
+    "wins": 2,
+    "gameLog": [
+        {
+            "loss": false,
+            "cashLog": 800,
+            "won": true,
+            "difference": 300
+        },
+        {
+            "loss": false,
+            "cashLog": 1100,
+            "won": true,
+            "difference": 300
+        },
+        {
+            "loss": true,
+            "cashLog": 600,
+            "won": false,
+            "difference": -500
+        }
+    ],
+    "losses": 1,
+    "cash": 600
+}

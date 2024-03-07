@@ -1,6 +1,7 @@
 package ui;
 
 import model.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -264,7 +265,7 @@ public class Game implements Writable {
     //EFFECTS: prints out a win statement. returns game wins.
     // if win and blackjack, adds 3:2 (bettingAmount * 2.5) amount.
     // otherwise match bet 1:1 (bettingAmount * 2) and adds to cash.
-    // play is stopped (false), win is added (addWins), and gameLog win added.
+    // play is stopped (false), win is added, and gameLog win added.
     private void playerWins(String description, Boolean blackjack) {
         System.out.println(description + " Player wins!");
         if (blackjack) {
@@ -275,18 +276,17 @@ public class Game implements Writable {
             addGameLog(true, false, cash, bettingAmount);
         }
         play = false;
-        addWins();
-
+        wins++;
     }
 
     //MODIFIES: this
     //EFFECTS: prints out a losing statement. cash and bets are not changed.
-    //play is stopped (false), loss is added (addLosses) and gameLog loss is added
+    //play is stopped (false), loss is added and gameLog loss is added
     // with negative bettingAmount difference added.
     private void playerLoses(String description) {
         System.out.println(description + " Dealer wins.");
         play = false;
-        addLosses();
+        losses++;
         addGameLog(false, true, cash, -bettingAmount);
     }
 
@@ -313,7 +313,7 @@ public class Game implements Writable {
     // cash score, and diff (money difference from game).
     public void printGameStatsLog() {
         int count = 0;
-        double winPercent = (getWins() / (getLosses() + getWins())) * 100;
+        double winPercent = (wins / (losses + wins)) * 100;
         System.out.println("Win rate: " + Math.round(winPercent) + "%");
 
         for (Log l : gameLog) {
@@ -323,38 +323,12 @@ public class Game implements Writable {
         }
     }
 
-    public int getCash() {
-        return cash;
-    }
-
-    public double getWins() {
-        return wins;
-    }
-
-    public double getLosses() {
-        return losses;
-    }
-
-    public void addWins() {
-        wins++;
-    }
-
-    public void addLosses() {
-        losses++;
-    }
-
-    public List<Log> getGameLog() {
-        return gameLog;
-    }
-
-
     private void saveGame() {
         try {
             jsonWriter.open();
             jsonWriter.writeGame(this);
-            //TODO write the other json saved
             jsonWriter.close();
-            System.out.println("Saved to " + JSON_STORE);
+            System.out.println("Saved stats to " + JSON_STORE);
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
@@ -364,7 +338,21 @@ public class Game implements Writable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("cash", cash);
+        json.put("wins", wins);
+        json.put("losses", losses);
+        json.put("gameLog", gameLogToJson());
         return json;
+    }
+
+    // EFFECTS: returns gameLogs from the game as a JSON array
+    private JSONArray gameLogToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Log l : gameLog) {
+            jsonArray.put(l.toJson());
+        }
+
+        return jsonArray;
     }
 
 
