@@ -7,11 +7,11 @@ import org.json.JSONObject;
 public class Card {
     // Ace is worth 1 or 11 but is instantiated as 11, face worth 10, rest of cards are their respective numbers.
     private int number; // {1-11}
-    private final String symbol; // {A,[2-10],J,Q,K}
-    private final char suit; // D (diamonds), C (clubs), H (hearts), S (spades).
+    private String symbol; // {A,[2-10],J,Q,K}
+    private String suit; // D (diamonds), C (clubs), H (hearts), S (spades).
 
     //EFFECTS: creates a new card with the specified number and symbol
-    public Card(int number, String symbol, char suit) {
+    public Card(int number, String symbol, String suit) {
         this.number = number;
         this.symbol = symbol;
         this.suit = suit;
@@ -30,7 +30,7 @@ public class Card {
         return symbol;
     }
 
-    public char getSuit() {
+    public String getSuit() {
         return suit;
     }
 

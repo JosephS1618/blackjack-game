@@ -44,16 +44,16 @@ public class Deck {
     public void makeSuit(int suit, int number) {
         switch (suit) {
             case 1:
-                makeCard('D', number);
+                makeCard("D", number);
                 break;
             case 2:
-                makeCard('C', number);
+                makeCard("C", number);
                 break;
             case 3:
-                makeCard('H', number);
+                makeCard("H", number);
                 break;
             case 4:
-                makeCard('S', number);
+                makeCard("S", number);
                 break;
         }
     }
@@ -61,7 +61,7 @@ public class Deck {
     //REQUIRES: suit is char 'D', 'C', 'H', or 'S', int number is between 1 and 13
     //MODIFIES: this, card
     //EFFECTS: creates card of number, symbol and suit. adds card to cardDeck
-    public void makeCard(char suit, int number) {
+    public void makeCard(String suit, int number) {
         Card newCard = null;
 
         if (number == 1) {
@@ -76,6 +76,10 @@ public class Deck {
             newCard = new Card(10, "K", suit);
         }
 
+        cardDeck.add(newCard);
+    }
+
+    public void addCard(Card newCard) {
         cardDeck.add(newCard);
     }
 

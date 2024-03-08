@@ -20,13 +20,15 @@ public class Game implements Writable {
     private static final int STARTING_CASH = 500; //starting cash for a new game
     private static final String JSON_STORE = "./data/gameTest.json";
 
+    boolean run = true; // runs the entire gam. true = run. false = quit.
+
     private Deck gameDeck;
     private Player player;
     private Dealer dealer;
 
     private int cash;
     private int bettingAmount;
-    private Boolean play; //false = end game. true = continue game
+    private Boolean play = false; //false = end game. true = continue game
     private Boolean stand; //false = don't stand. true = stand
 
     private List<model.Log> gameLog;
@@ -88,7 +90,6 @@ public class Game implements Writable {
     // MODIFIES: this
     // EFFECTS: runs user input. If the player cash == 0, cash is reset.
     private void runInput() {
-        boolean run = true;
         int select = 0;
         input = new Scanner(System.in);
 
@@ -126,6 +127,7 @@ public class Game implements Writable {
         } else if (input == 5) {
             loadGameLog();
         } else {
+            quitDialogue();
             System.out.println("Invalid input");
         }
     }
@@ -218,10 +220,12 @@ public class Game implements Writable {
         } else if (stand) { // stand and player is closer to 21 (second part is true regardless)
             playerWins("You're closer to 21!", false);
         } else {
+            quitDialogue();
             stand = hitOrStand();
             if (stand) {
                 dealerPlay(); // dealer draws until over 17
             }
+
         }
     }
 
@@ -247,8 +251,16 @@ public class Game implements Writable {
             player.addCard(gameDeck.getFirstCardInDeck());
             gameDeck.removeFirstCardInDeck();
             return false; // hit
-        } else {
-            return true; // stand
+        }
+        return true; // stand
+    }
+
+    public void quitDialogue() {
+        System.out.println("Save and quit game? (3)");
+        int choice = input.nextInt();
+        if (choice == 3) {
+            saveGame();
+            System.exit(0);
         }
     }
 
@@ -365,30 +377,21 @@ public class Game implements Writable {
     private void loadGameLog() {
         try {
             gameLog = jsonReader.readGameLog();
+            cash = jsonReader.readCash();
+            wins = jsonReader.readWins();
+            losses = jsonReader.readLosses();
+            play = jsonReader.readPlay();
+            stand = jsonReader.readStand();
+            gameDeck = jsonReader.readDeck();
+            player = jsonReader.readPlayer();
+            dealer = jsonReader.readDealer();
             System.out.println("Loaded from " + JSON_STORE);
+            if (play) {
+                runGame(); // if saved while playing game.
+            }
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 
-
-    public void setCash(int cash) {
-        this.cash = cash;
-    }
-
-    public void setPlay(Boolean play) {
-        this.play = play;
-    }
-
-    public void setStand(Boolean stand) {
-        this.stand = stand;
-    }
-
-    public void setWins(double wins) {
-        this.wins = wins;
-    }
-
-    public void setLosses(double losses) {
-        this.losses = losses;
-    }
 }

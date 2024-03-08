@@ -16,10 +16,10 @@ public class PlayerTest {
     void runBefore() {
         player1 = new Player();
 
-        ace1 = new Card(11, "A", 'D');
-        ace2 = new Card(11, "A", 'S');
-        ten = new Card(10, "10", 'C');
-        five = new Card(5, "5", 'D');
+        ace1 = new Card(11, "A", "D");
+        ace2 = new Card(11, "A", "S");
+        ten = new Card(10, "10", "C");
+        five = new Card(5, "5", "D");
     }
 
     @Test

@@ -8,9 +8,9 @@ public class CardTest {
 
     @Test
     void cardTest() {
-        Card card = new Card(11,"A", 'D');
+        Card card = new Card(11,"A", "D");
         assertEquals(11, card.getNumber());
         assertEquals("A", card.getSymbol());
-        assertEquals('D', card.getSuit());
+        assertEquals("D", card.getSuit());
     }
 }
