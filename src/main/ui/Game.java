@@ -18,7 +18,7 @@ import java.util.Scanner;
 // keeping track of cash, and keeping game logs/stats.
 public class Game implements Writable {
     private static final int STARTING_CASH = 500; //starting cash for a new game
-    private static final String JSON_STORE = "./data/gameTest.json";
+    private static final String JSON_STORE = "./data/saved.json";
 
     boolean run = true; // runs the entire gam. true = run. false = quit.
 
@@ -127,7 +127,6 @@ public class Game implements Writable {
         } else if (input == 5) {
             loadGameLog();
         } else {
-            quitDialogue();
             System.out.println("Invalid input");
         }
     }
@@ -225,7 +224,6 @@ public class Game implements Writable {
             if (stand) {
                 dealerPlay(); // dealer draws until over 17
             }
-
         }
     }
 
@@ -256,10 +254,14 @@ public class Game implements Writable {
     }
 
     public void quitDialogue() {
-        System.out.println("Save and quit game? (3)");
-        int choice = input.nextInt();
-        if (choice == 3) {
+        System.out.println("Keep playing (any key) Save (s) Quit game (q)");
+        String choice = input.next().toLowerCase();
+        if (choice.equals("s")) {
             saveGame();
+            System.out.println("\nThanks for playing!");
+            System.exit(0);
+        } else if (choice.equals("q")) {
+            System.out.println("\nThanks for playing!");
             System.exit(0);
         }
     }
@@ -352,6 +354,7 @@ public class Game implements Writable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("cash", cash);
+        json.put("bettingAmount", bettingAmount);
         json.put("wins", wins);
         json.put("losses", losses);
         json.put("gameLog", gameLogToJson());
@@ -378,6 +381,7 @@ public class Game implements Writable {
         try {
             gameLog = jsonReader.readGameLog();
             cash = jsonReader.readCash();
+            bettingAmount = jsonReader.readBettingAmount();
             wins = jsonReader.readWins();
             losses = jsonReader.readLosses();
             play = jsonReader.readPlay();
