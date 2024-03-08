@@ -7,10 +7,10 @@ import persistence.Writable;
 // true for won and loss. cashLog is the cash after the game. difference is the money gained (positive), net zero (0),
 // or money lost (negative). Logs cannot be changed (final). Log is wiped when player loses (score 0).
 public class Log implements Writable {
-    private final boolean won; //true = won
-    private final boolean loss; //true = lost
-    private final int cashLog;
-    private final double difference;
+    private boolean won; //true = won
+    private boolean loss; //true = lost
+    private int cashLog;
+    private double difference;
 
     //EFFECTS: sets the status of won, loss,
     public Log(boolean won, boolean loss, int cashLog, double difference) {

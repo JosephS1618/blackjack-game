@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,14 @@ public class Player {
 
     public List<Card> getPlayerCards() {
         return playerCards;
+    }
+
+    public JSONArray deckToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Card card : playerCards) {
+            jsonArray.put(card.toJson());
+        }
+        return jsonArray;
     }
 
 

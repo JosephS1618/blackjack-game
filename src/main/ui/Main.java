@@ -1,8 +1,6 @@
 package ui;
 
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
-import java.util.Scanner;
 
 //initial game menu. shows user what functions are available, 0,1,2,3. selecting any integer other than 0 brings them
 //into the UI of the game class. If the game is over (cash reaches 0), the game resets completely, wiping all data

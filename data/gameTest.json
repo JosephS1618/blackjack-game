@@ -1,25 +1,1587 @@
 {
-    "wins": 2,
+    "wins": 0,
+    "play": false,
     "gameLog": [
         {
-            "loss": false,
-            "cashLog": 800,
-            "won": true,
-            "difference": 300
-        },
-        {
-            "loss": false,
-            "cashLog": 1100,
-            "won": true,
-            "difference": 300
+            "loss": true,
+            "cashLog": 300,
+            "won": false,
+            "difference": -200
         },
         {
             "loss": true,
-            "cashLog": 600,
+            "cashLog": 200,
             "won": false,
-            "difference": -500
+            "difference": -100
         }
     ],
-    "losses": 1,
-    "cash": 600
+    "dealer": [
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 72
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 72
+        }
+    ],
+    "losses": 2,
+    "stand": false,
+    "cash": 200,
+    "gameDeck": [
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 72
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 72
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 83
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 68
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 67
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 67
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 72
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 68
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 72
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 72
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 83
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 68
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 83
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 83
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 83
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 67
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 72
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 68
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 72
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 68
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 68
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 68
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 68
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 67
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 67
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 72
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 72
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 68
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 83
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 67
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 68
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 83
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 68
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 68
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 67
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 83
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 67
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 72
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 68
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 68
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 67
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 72
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 83
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 72
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 67
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 72
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 67
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 67
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 68
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 83
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 72
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 83
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 68
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 83
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 68
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 68
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 67
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 67
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 72
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 68
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 72
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 83
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 72
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 67
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 67
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 68
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 72
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 83
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 67
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 68
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 83
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 72
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 67
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 72
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 72
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 68
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 83
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 67
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 72
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 67
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 83
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 67
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 68
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 68
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 72
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 67
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 72
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 72
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 67
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 83
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 68
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 68
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 67
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 68
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 83
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 67
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 67
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 72
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 67
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 68
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 67
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 83
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 83
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 67
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 68
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 83
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 67
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 72
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 83
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 67
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 72
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 68
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 67
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 72
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 68
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 67
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 68
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 72
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 68
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 83
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 83
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 68
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 72
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 68
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 72
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 72
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 72
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 67
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 72
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 72
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 67
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 72
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 67
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 68
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 83
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 68
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 68
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 83
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 72
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 72
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 68
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 67
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 68
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 68
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 72
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 83
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 67
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 67
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 83
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 83
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 83
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 72
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 67
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 72
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 67
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 83
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 72
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 67
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 67
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 72
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 68
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 83
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 68
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 68
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 68
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 67
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 72
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 72
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 68
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 72
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 83
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 68
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 72
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 68
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 67
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 83
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 68
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 67
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 67
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 67
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 72
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": 67
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 72
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 83
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 67
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 67
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": 67
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 67
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 68
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 83
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 72
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 68
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 67
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 83
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 68
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 68
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": 68
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 72
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": 72
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": 83
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 83
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 68
+        },
+        {
+            "number": 3,
+            "symbol": "3",
+            "suit": 72
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": 68
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": 83
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": 83
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 68
+        }
+    ],
+    "player": [
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": 72
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": 67
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": 83
+        }
+    ]
 }

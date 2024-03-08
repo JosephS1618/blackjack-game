@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +99,15 @@ public class Deck {
     //EFFECTS: removes the card in index 0 of cardDeck
     public void removeFirstCardInDeck() {
         cardDeck.remove(0);
+    }
+
+    // EFFECTS: returns gameLogs from the game as a JSON array
+    public JSONArray deckToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Card card : cardDeck) {
+            jsonArray.put(card.toJson());
+        }
+        return jsonArray;
     }
 
 }

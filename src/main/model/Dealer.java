@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,5 +63,13 @@ public class Dealer {
 
     public int getCardValue(int index) {
         return dealerCards.get(index).getNumber();
+    }
+
+    public JSONArray deckToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Card card : dealerCards) {
+            jsonArray.put(card.toJson());
+        }
+        return jsonArray;
     }
 }
