@@ -34,6 +34,7 @@ public class Card {
         return suit;
     }
 
+    //EFFECTS: converts the fields to JSON object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("number", number);

@@ -1,0 +1,19 @@
+{
+  "dealer": [
+    {
+      "number": 9,
+      "symbol": "9",
+      "suit": "D"
+    },
+    {
+      "number": 3,
+      "symbol": "3",
+      "suit": "D"
+    },
+    {
+      "number": 10,
+      "symbol": "J",
+      "suit": "C"
+    }
+  ]
+}

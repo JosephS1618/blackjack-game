@@ -47,8 +47,6 @@ public class Game implements Writable {
         gameLog = new ArrayList<>();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
-        runInput();
-
     }
 
     //REQUIRES: select either 1 or 2
@@ -84,12 +82,11 @@ public class Game implements Writable {
 
         shuffle(); // shuffles the deck
         firstDeal(); // gives player and dealer two cards each
-        makeBet(); // asks user for bet
     }
 
     // MODIFIES: this
     // EFFECTS: runs user input. If the player cash == 0, cash is reset.
-    private void runInput() {
+    public void runInput() {
         int select = 0;
         input = new Scanner(System.in);
 
@@ -111,10 +108,11 @@ public class Game implements Writable {
         System.out.println("\nThanks for playing!");
     }
 
-    //
+    //EFFECTS: Asks users for menu input.
     public void processInput(int input) {
         if (input == 1 || input == 2) {
             setUpNewGame(input);
+            makeBet(); // asks user for bet
             runGame();
         } else if (input == 3) {
             if (gameLog.isEmpty()) {
@@ -253,6 +251,7 @@ public class Game implements Writable {
         return true; // stand
     }
 
+    //EFFECTS: asks the user if they wish to keep playing. save to file, or simply quit.
     public void quitDialogue() {
         System.out.println("Keep playing (any key) Save (s) Quit game (q)");
         String choice = input.next().toLowerCase();
@@ -339,6 +338,7 @@ public class Game implements Writable {
         }
     }
 
+    //EFFECTS: saves fields of the game by writing to the JSON file.
     private void saveGame() {
         try {
             jsonWriter.open();
@@ -351,6 +351,7 @@ public class Game implements Writable {
     }
 
     @Override
+    //EFFECTS: converts the all fields necessary to play a game to JSON format.
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("cash", cash);
@@ -376,7 +377,7 @@ public class Game implements Writable {
     }
 
     // MODIFIES: this
-    // EFFECTS: loads workroom from file
+    // EFFECTS: loads game data from file
     private void loadGameLog() {
         try {
             gameLog = jsonReader.readGameLog();
