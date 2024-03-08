@@ -54,6 +54,18 @@ public class JsonReaderTest {
         }
     }
 
+    @Test
+    void testReaderCards() {
+        JsonReader reader = new JsonReader("./data/testWriteDeck.json");
+        try {
+            assertEquals(48, reader.readDeck().cardDeckSize());
+            assertEquals(2, reader.readPlayer().getPlayerCards().size());
+            assertEquals(2, reader.readDealer().getDealerCards().size());
+        } catch (IOException e) {
+            fail("Couldn't read from file");
+        }
+    }
+
 
 
 

@@ -185,4 +185,11 @@ class DeckTest {
         assertNotEquals(deck1.getCardDeck().get(0), deck1.getCardDeck().get(52));
     }
 
+    @Test
+    void addCardOnceTest() {
+        Card ace = new Card(1, "A", "D");
+        deck1.addCard(ace);
+        assertEquals(ace, deck1.getFirstCardInDeck());
+    }
+
 }
