@@ -49,6 +49,11 @@ public class Player {
         return null;
     }
 
+    public void moveCardToHand(Deck deck) {
+        addCard(deck.getFirstCardInDeck());
+        deck.removeFirstCardInDeck();
+    }
+
     //EFFECTS: adds a card to the players cards.
     public void addCard(Card card) {
         playerCards.add(card);

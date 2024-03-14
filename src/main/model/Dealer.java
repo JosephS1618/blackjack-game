@@ -49,6 +49,21 @@ public class Dealer {
         return null;
     }
 
+    //REQUIRES: play is true, stand is true.
+    //MODIFIES: dealerCards, Deck
+    //EFFECTS: Dealer draws cards until over 16. If ace is added and 16 < dealerSum < 21 then ace stays 11
+    public void play(Deck deck) {
+        while (dealerSum() < 17) {
+            dealerCards.add(deck.getFirstCardInDeck());
+            deck.removeFirstCardInDeck();
+        }
+    }
+
+    public void moveCardToHand(Deck deck) {
+        addCard(deck.getFirstCardInDeck());
+        deck.removeFirstCardInDeck();
+    }
+
     public void addCard(Card card) {
         dealerCards.add(card);
     }

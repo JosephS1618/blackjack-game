@@ -4,13 +4,13 @@
     "gameLog": [],
     "dealer": [
         {
-            "number": 9,
-            "symbol": "9",
-            "suit": "C"
+            "number": 11,
+            "symbol": "A",
+            "suit": "D"
         },
         {
-            "number": 10,
-            "symbol": "10",
+            "number": 5,
+            "symbol": "5",
             "suit": "C"
         }
     ],
@@ -20,11 +20,6 @@
     "bettingAmount": 0,
     "gameDeck": [
         {
-            "number": 10,
-            "symbol": "K",
-            "suit": "C"
-        },
-        {
             "number": 3,
             "symbol": "3",
             "suit": "S"
@@ -32,16 +27,131 @@
         {
             "number": 10,
             "symbol": "K",
-            "suit": "D"
+            "suit": "C"
         },
         {
             "number": 10,
             "symbol": "Q",
-            "suit": "H"
+            "suit": "S"
         },
         {
             "number": 10,
             "symbol": "J",
+            "suit": "S"
+        },
+        {
+            "number": 10,
+            "symbol": "J",
+            "suit": "D"
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": "D"
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": "H"
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": "D"
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": "S"
+        },
+        {
+            "number": 10,
+            "symbol": "K",
+            "suit": "S"
+        },
+        {
+            "number": 2,
+            "symbol": "2",
+            "suit": "D"
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": "H"
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": "S"
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": "S"
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": "S"
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": "S"
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": "C"
+        },
+        {
+            "number": 7,
+            "symbol": "7",
+            "suit": "D"
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": "D"
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": "H"
+        },
+        {
+            "number": 10,
+            "symbol": "10",
+            "suit": "D"
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": "S"
+        },
+        {
+            "number": 8,
+            "symbol": "8",
+            "suit": "C"
+        },
+        {
+            "number": 10,
+            "symbol": "Q",
+            "suit": "D"
+        },
+        {
+            "number": 4,
+            "symbol": "4",
+            "suit": "C"
+        },
+        {
+            "number": 5,
+            "symbol": "5",
+            "suit": "S"
+        },
+        {
+            "number": 6,
+            "symbol": "6",
             "suit": "D"
         },
         {
@@ -50,28 +160,23 @@
             "suit": "H"
         },
         {
-            "number": 8,
-            "symbol": "8",
+            "number": 10,
+            "symbol": "J",
             "suit": "C"
-        },
-        {
-            "number": 2,
-            "symbol": "2",
-            "suit": "H"
-        },
-        {
-            "number": 7,
-            "symbol": "7",
-            "suit": "C"
-        },
-        {
-            "number": 8,
-            "symbol": "8",
-            "suit": "H"
         },
         {
             "number": 10,
-            "symbol": "K",
+            "symbol": "Q",
+            "suit": "H"
+        },
+        {
+            "number": 9,
+            "symbol": "9",
+            "suit": "C"
+        },
+        {
+            "number": 4,
+            "symbol": "4",
             "suit": "S"
         },
         {
@@ -85,14 +190,14 @@
             "suit": "H"
         },
         {
-            "number": 10,
-            "symbol": "10",
-            "suit": "S"
+            "number": 3,
+            "symbol": "3",
+            "suit": "D"
         },
         {
-            "number": 10,
-            "symbol": "Q",
-            "suit": "C"
+            "number": 5,
+            "symbol": "5",
+            "suit": "H"
         },
         {
             "number": 2,
@@ -100,59 +205,39 @@
             "suit": "S"
         },
         {
-            "number": 9,
-            "symbol": "9",
-            "suit": "D"
-        },
-        {
-            "number": 6,
-            "symbol": "6",
-            "suit": "H"
-        },
-        {
-            "number": 11,
-            "symbol": "A",
-            "suit": "D"
-        },
-        {
-            "number": 10,
-            "symbol": "Q",
-            "suit": "D"
-        },
-        {
             "number": 11,
             "symbol": "A",
             "suit": "H"
         },
         {
-            "number": 8,
-            "symbol": "8",
-            "suit": "D"
-        },
-        {
-            "number": 7,
-            "symbol": "7",
+            "number": 2,
+            "symbol": "2",
             "suit": "H"
-        },
-        {
-            "number": 7,
-            "symbol": "7",
-            "suit": "D"
         },
         {
             "number": 10,
             "symbol": "K",
+            "suit": "D"
+        },
+        {
+            "number": 11,
+            "symbol": "A",
+            "suit": "C"
+        },
+        {
+            "number": 6,
+            "symbol": "6",
+            "suit": "C"
+        },
+        {
+            "number": 8,
+            "symbol": "8",
             "suit": "H"
         },
         {
-            "number": 4,
-            "symbol": "4",
-            "suit": "H"
-        },
-        {
-            "number": 9,
-            "symbol": "9",
-            "suit": "S"
+            "number": 2,
+            "symbol": "2",
+            "suit": "C"
         },
         {
             "number": 10,
@@ -160,19 +245,9 @@
             "suit": "H"
         },
         {
-            "number": 7,
-            "symbol": "7",
-            "suit": "S"
-        },
-        {
-            "number": 10,
-            "symbol": "10",
-            "suit": "D"
-        },
-        {
             "number": 10,
             "symbol": "Q",
-            "suit": "S"
+            "suit": "C"
         },
         {
             "number": 3,
@@ -181,95 +256,20 @@
         },
         {
             "number": 10,
-            "symbol": "J",
-            "suit": "C"
-        },
-        {
-            "number": 9,
-            "symbol": "9",
+            "symbol": "K",
             "suit": "H"
-        },
-        {
-            "number": 5,
-            "symbol": "5",
-            "suit": "H"
-        },
-        {
-            "number": 2,
-            "symbol": "2",
-            "suit": "D"
-        },
-        {
-            "number": 5,
-            "symbol": "5",
-            "suit": "C"
-        },
-        {
-            "number": 8,
-            "symbol": "8",
-            "suit": "S"
-        },
-        {
-            "number": 6,
-            "symbol": "6",
-            "suit": "C"
-        },
-        {
-            "number": 5,
-            "symbol": "5",
-            "suit": "S"
-        },
-        {
-            "number": 4,
-            "symbol": "4",
-            "suit": "S"
-        },
-        {
-            "number": 6,
-            "symbol": "6",
-            "suit": "D"
-        },
-        {
-            "number": 2,
-            "symbol": "2",
-            "suit": "C"
-        },
-        {
-            "number": 11,
-            "symbol": "A",
-            "suit": "C"
-        },
-        {
-            "number": 10,
-            "symbol": "J",
-            "suit": "S"
-        },
-        {
-            "number": 4,
-            "symbol": "4",
-            "suit": "C"
-        },
-        {
-            "number": 6,
-            "symbol": "6",
-            "suit": "S"
-        },
-        {
-            "number": 11,
-            "symbol": "A",
-            "suit": "S"
         }
     ],
     "player": [
         {
-            "number": 3,
-            "symbol": "3",
-            "suit": "D"
+            "number": 6,
+            "symbol": "6",
+            "suit": "H"
         },
         {
-            "number": 5,
-            "symbol": "5",
-            "suit": "D"
+            "number": 7,
+            "symbol": "7",
+            "suit": "C"
         }
     ]
 }

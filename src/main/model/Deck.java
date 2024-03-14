@@ -3,6 +3,7 @@ package model;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 // Creates a new shuffled card deck. Either a single deck (classic mode) or six decks (party mode).
@@ -77,6 +78,13 @@ public class Deck {
         }
 
         cardDeck.add(newCard);
+    }
+
+    //REQUIRES: cardDeck is not empty
+    //MODIFIES: this
+    //EFFECTS: Shuffles cardDeck in random order.
+    public void shuffle() {
+        Collections.shuffle(cardDeck);
     }
 
     public void addCard(Card newCard) {

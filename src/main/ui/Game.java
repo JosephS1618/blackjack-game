@@ -10,7 +10,6 @@ import persistence.Writable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,6 +27,7 @@ public class Game implements Writable {
 
     private int cash;
     private int bettingAmount;
+
     private Boolean play = false; //false = end game. true = continue game
     private Boolean stand; //false = don't stand. true = stand
 
@@ -80,7 +80,7 @@ public class Game implements Writable {
             gameDeck.makePartyDeck();
         }
 
-        shuffle(); // shuffles the deck
+        gameDeck.shuffle(); // shuffles the deck
         firstDeal(); // gives player and dealer two cards each
     }
 
@@ -102,7 +102,7 @@ public class Game implements Writable {
 
             if (cash == 0) {
                 System.out.println("SCORE: 0\nGAME OVER\n...\nGAME RESETS");
-                cash = STARTING_CASH; //TODO change this ability
+                cash = STARTING_CASH;
             }
         }
         System.out.println("\nThanks for playing!");
@@ -115,11 +115,7 @@ public class Game implements Writable {
             makeBet(); // asks user for bet
             runGame();
         } else if (input == 3) {
-            if (gameLog.isEmpty()) {
-                System.out.println("No games played yet");
-            } else {
-                printGameStatsLog();
-            }
+            printGameStatsLog();
         } else if (input == 4) {
             saveGame();
         } else if (input == 5) {
@@ -140,23 +136,14 @@ public class Game implements Writable {
         System.out.println("5. Load Game");
     }
 
-    //REQUIRES: gameDeck is not empty
-    //MODIFIES: this
-    //EFFECTS: Shuffles gameDeck in random order.
-    private void shuffle() {
-        Collections.shuffle(gameDeck.getCardDeck());
-    }
-
     //MODIFIES: this, playerCard, dealerCard
     //EFFECTS: draws two cards each for the player and the dealer.
     // Alternates adding the first card to playerCards and dealerCards twice. Removes
     // the added cards from gameDeck after each add.
     public void firstDeal() {
         for (int i = 0; i < 2; i++) {
-            player.addCard(gameDeck.getFirstCardInDeck());
-            gameDeck.removeFirstCardInDeck();
-            dealer.addCard(gameDeck.getFirstCardInDeck());
-            gameDeck.removeFirstCardInDeck();
+            player.moveCardToHand(gameDeck);
+            dealer.moveCardToHand(gameDeck);
         }
     }
 
@@ -203,24 +190,24 @@ public class Game implements Writable {
     // hitting (drawing cards) or standing (stop and calls dealerPlay).
     public void playGame(int playSum, int dealSum) {
         if (stand && playSum == dealSum) { // stand and tie
-            standoff();
+            outcomeStandoff();
         } else if (playSum == 21 && dealSum == 21) { // 21 and tie
-            standoff();
+            outcomeStandoff();
         } else if (playSum == 21) { // win and blackjack
-            playerWins("Blackjack!", true);
+            outcomePlayerWins("Blackjack!", true);
         } else if (playSum > 21) { // lose and player busts
-            playerLoses("Player busts.");
+            outcomePlayerLoses("Player busts.");
         } else if (dealSum > 21) { // win and dealer busts
-            playerWins("Dealer busts!", false);
+            outcomePlayerWins("Dealer busts!", false);
         } else if (stand && (playSum < dealSum)) { // stand and dealer is closer to 21
-            playerLoses("Dealer closer to 21.");
+            outcomePlayerLoses("Dealer closer to 21.");
         } else if (stand) { // stand and player is closer to 21 (second part is true regardless)
-            playerWins("You're closer to 21!", false);
+            outcomePlayerWins("You're closer to 21!", false);
         } else {
             quitDialogue();
             stand = hitOrStand();
             if (stand) {
-                dealerPlay(); // dealer draws until over 17
+                dealer.play(gameDeck); // dealer draws until over 17
             }
         }
     }
@@ -244,8 +231,7 @@ public class Game implements Writable {
         int choice = input.nextInt();
 
         if (choice == 1) {
-            player.addCard(gameDeck.getFirstCardInDeck());
-            gameDeck.removeFirstCardInDeck();
+            player.moveCardToHand(gameDeck);
             return false; // hit
         }
         return true; // stand
@@ -265,23 +251,13 @@ public class Game implements Writable {
         }
     }
 
-    //REQUIRES: play is true, stand is true.
-    //MODIFIES: this, dealerCards
-    //EFFECTS: Dealer draws cards until over 16. If ace is added and 16 < dealerSum < 21 then ace stays 11
-    private void dealerPlay() {
-        while (dealer.dealerSum() < 17) {
-            dealer.addCard(gameDeck.getFirstCardInDeck());
-            gameDeck.removeFirstCardInDeck();
-        }
-    }
-
     //REQUIRES: boolean blackjack is not null.
     //MODIFIES: this
     //EFFECTS: prints out a win statement. returns game wins.
     // if win and blackjack, adds 3:2 (bettingAmount * 2.5) amount.
     // otherwise match bet 1:1 (bettingAmount * 2) and adds to cash.
     // play is stopped (false), win is added, and gameLog win added.
-    private void playerWins(String description, Boolean blackjack) {
+    private void outcomePlayerWins(String description, Boolean blackjack) {
         System.out.println(description + " Player wins!");
         if (blackjack) {
             cash += bettingAmount * 2.5;
@@ -298,7 +274,7 @@ public class Game implements Writable {
     //EFFECTS: prints out a losing statement. cash and bets are not changed.
     //play is stopped (false), loss is added and gameLog loss is added
     // with negative bettingAmount difference added.
-    private void playerLoses(String description) {
+    private void outcomePlayerLoses(String description) {
         System.out.println(description + " Dealer wins.");
         play = false;
         losses++;
@@ -309,7 +285,7 @@ public class Game implements Writable {
     //EFFECTS: bets are returned in full to cash total.
     // (no change in cash before bet and after game)
     //play is stopped (false), and gameLog tie is added.
-    private void standoff() {
+    private void outcomeStandoff() {
         System.out.println("Standoff! Bets are returned.");
         cash += bettingAmount;
         play = false;
@@ -327,14 +303,18 @@ public class Game implements Writable {
     //EFFECTS: prints the win/loss percent and each log in gameLog in the format of win/loss/tie,
     // cash score, and diff (money difference from game).
     public void printGameStatsLog() {
-        int count = 0;
-        double winPercent = (wins / (losses + wins)) * 100;
-        System.out.println("Win rate: " + Math.round(winPercent) + "%");
+        if (gameLog.isEmpty()) {
+            System.out.println("No games played yet");
+        } else {
+            int gameNumber = 0;
+            double winPercent = (wins / (losses + wins)) * 100;
+            System.out.println("Win rate: " + Math.round(winPercent) + "%");
 
-        for (model.Log l : gameLog) {
-            count++;
-            System.out.println("Game " + count);
-            System.out.println(l.winLossStatus() + " - Score: " + l.getCashLog() + " - Diff: " + l.getDifference());
+            for (Log l : gameLog) {
+                gameNumber++;
+                System.out.println("Game " + gameNumber);
+                System.out.println(l.winLossStatus() + " - Score: " + l.getCashLog() + " - Diff: " + l.getDifference());
+            }
         }
     }
 
