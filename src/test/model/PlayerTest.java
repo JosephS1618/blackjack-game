@@ -3,7 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
     private Player player1;
@@ -11,6 +11,7 @@ public class PlayerTest {
     private Card ace2;
     private Card ten;
     private Card five;
+    private Deck testDeck1;
 
     @BeforeEach
     void runBefore() {
@@ -20,6 +21,12 @@ public class PlayerTest {
         ace2 = new Card(11, "A", "S");
         ten = new Card(10, "10", "C");
         five = new Card(5, "5", "D");
+
+        testDeck1 = new Deck();
+        testDeck1.addCard(ace1);
+        testDeck1.addCard(ace2);
+        testDeck1.addCard(ten);
+        testDeck1.addCard(five);
     }
 
     @Test
@@ -81,6 +88,13 @@ public class PlayerTest {
     void findAceDoesNotExist() {
         player1.addCard(five);
         assertEquals(null, player1.findAce());
+    }
+
+    @Test
+    void moveCardToHandTest() {
+        player1.moveCardToHand(testDeck1);
+        assertTrue(player1.getPlayerCards().contains(ace1));
+        assertFalse(testDeck1.getCardDeck().contains(ace1));
     }
 
 

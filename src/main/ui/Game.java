@@ -19,8 +19,6 @@ public class Game implements Writable {
     private static final int STARTING_CASH = 500; //starting cash for a new game
     private static final String JSON_STORE = "./data/saved.json";
 
-    boolean run = true; // runs the entire gam. true = run. false = quit.
-
     private Deck gameDeck;
     private Player player;
     private Dealer dealer;
@@ -28,7 +26,7 @@ public class Game implements Writable {
     private int cash;
     private int bettingAmount;
 
-    private Boolean play = false; //false = end game. true = continue game
+    private Boolean play; //false = end game. true = continue game
     private Boolean stand; //false = don't stand. true = stand
 
     private List<model.Log> gameLog;
@@ -49,18 +47,55 @@ public class Game implements Writable {
         jsonReader = new JsonReader(JSON_STORE);
     }
 
-    //REQUIRES: select either 1 or 2
-    //MODIFIES: this, Deck cardDeck, Player playerCards, Dealer dealerCards.
-    //EFFECTS: sets up the game, controls game logic (calling playGame),
-    // controls bets (makeBet), outputs win, loss, tie. Prints dealer and player hands
-    // in printHands and printEndHand.
-    public void runGame() {
-        do {
-            printHands(); // prints your entire hand and the first card of the dealer
-            playGame(player.playerSum(), dealer.dealerSum()); // main game logic
-        } while (play);
+    // MODIFIES: this
+    // EFFECTS: runs user input. If the player cash == 0, cash is reset.
+    public void runInput() {
+        int select;
+        input = new Scanner(System.in);
 
-        printEndHand(); // prints the dealers entire hand.
+        while (true) {
+            displayMenu();
+            select = input.nextInt();
+
+            if (select == 0) {
+                quitDialogue();
+            } else {
+                processInput(select);
+            }
+
+            if (cash == 0) {
+                System.out.println("SCORE: 0\nGAME OVER\n...\nGAME RESETS");
+                cash = STARTING_CASH;
+            }
+        }
+    }
+
+    // EFFECTS: displays menu of options to user
+    private void displayMenu() {
+        System.out.println("----------BLACKJACK----------\nSCORE: $" + cash);
+        System.out.println("0. Quit ");
+        System.out.println("1. Classic Mode (one deck)");
+        System.out.println("2. Party Mode (six decks)");
+        System.out.println("3. View Game log");
+        System.out.println("4. Save Game");
+        System.out.println("5. Load Game");
+    }
+
+    //EFFECTS: Asks users for menu input.
+    public void processInput(int input) {
+        if (input == 1 || input == 2) {
+            setUpNewGame(input);
+            makeBet(); // asks user for bet
+            runGame();
+        } else if (input == 3) {
+            printGameStatsLog();
+        } else if (input == 4) {
+            saveGame();
+        } else if (input == 5) {
+            loadGameLog();
+        } else {
+            System.out.println("Invalid input");
+        }
     }
 
     //REQUIRES: select either 1 or 2
@@ -84,56 +119,27 @@ public class Game implements Writable {
         firstDeal(); // gives player and dealer two cards each
     }
 
-    // MODIFIES: this
-    // EFFECTS: runs user input. If the player cash == 0, cash is reset.
-    public void runInput() {
-        int select = 0;
-        input = new Scanner(System.in);
+    //MODIFIES: this
+    //EFFECTS: takes in a user inputted betting amount and temporarily removes it
+    // from their total cash. user input is stored in the value bettingAmount.
+    // prints out a bet confirmation, while also printing out error messages if
+    // inputted bet is invalid (negative amount or greater than total).
+    private void makeBet() {
+        int choice = cash + 1;
 
-        while (run) {
-            displayMenu();
-            select = input.nextInt();
-
-            if (select == 0) {
-                run = false;
-            } else {
-                processInput(select);
-            }
-
-            if (cash == 0) {
-                System.out.println("SCORE: 0\nGAME OVER\n...\nGAME RESETS");
-                cash = STARTING_CASH;
+        System.out.print("Betting amount" + " (max " + cash + "): ");
+        while (choice > cash || choice <= 0) {
+            choice = input.nextInt();
+            if (choice > cash) {
+                System.out.println("Must be less than the maximum!");
+            } else if (choice <= 0) {
+                System.out.println("Bet must be greater than zero!");
             }
         }
-        System.out.println("\nThanks for playing!");
-    }
-
-    //EFFECTS: Asks users for menu input.
-    public void processInput(int input) {
-        if (input == 1 || input == 2) {
-            setUpNewGame(input);
-            makeBet(); // asks user for bet
-            runGame();
-        } else if (input == 3) {
-            printGameStatsLog();
-        } else if (input == 4) {
-            saveGame();
-        } else if (input == 5) {
-            loadGameLog();
-        } else {
-            System.out.println("Invalid input");
-        }
-    }
-
-    // EFFECTS: displays menu of options to user
-    private void displayMenu() {
-        System.out.println("----------BLACKJACK----------\nSCORE: $" + cash);
-        System.out.println("0. Quit ");
-        System.out.println("1. Classic Mode (one deck)");
-        System.out.println("2. Party Mode (six decks)");
-        System.out.println("3. View Game log");
-        System.out.println("4. Save Game");
-        System.out.println("5. Load Game");
+        bettingAmount = choice;
+        System.out.println("You are betting: " + bettingAmount);
+        System.out.println("----------------------");
+        cash -= bettingAmount;
     }
 
     //MODIFIES: this, playerCard, dealerCard
@@ -147,26 +153,18 @@ public class Game implements Writable {
         }
     }
 
-    //MODIFIES: this
-    //EFFECTS: takes in a user inputted betting amount and temporarily removes it
-    // from their total cash. user input is stored in the value bettingAmount.
-    // prints out a bet confirmation, while also printing out error messages if
-    // inputted bet is invalid (negative amount or greater than total).
-    private void makeBet() {
-        int choice = cash + 1;
+    //REQUIRES: select either 1 or 2
+    //MODIFIES: this, Deck cardDeck, Player playerCards, Dealer dealerCards.
+    //EFFECTS: sets up the game, controls game logic (calling playGame),
+    // controls bets (makeBet), outputs win, loss, tie. Prints dealer and player hands
+    // in printHands and printEndHand.
+    public void runGame() {
+        do {
+            printHands(); // prints your entire hand and the first card of the dealer
+            playGame(player.playerSum(), dealer.dealerSum()); // main game logic
+        } while (play);
 
-        System.out.println("Betting amount:" + " max (" + cash + ")");
-        while (choice > cash || choice <= 0) {
-            choice = input.nextInt();
-            if (choice > cash) {
-                System.out.println("Must be less than the maximum!");
-            } else if (choice <= 0) {
-                System.out.println("Bet must be greater than zero!");
-            }
-        }
-        bettingAmount = choice;
-        System.out.println("You are betting: " + bettingAmount);
-        cash -= bettingAmount;
+        printEndHand(); // prints the dealers entire hand.
     }
 
     //REQUIRES: playerCards and dealerCards are not empty.
@@ -180,8 +178,18 @@ public class Game implements Writable {
         }
         dealerHand += " " + dealer.getCardSymbol(0);
 
-        System.out.print("Your cards:" + yourHand + " (" + player.playerSum() + ") ");
+        System.out.println("Your cards:" + yourHand + " (" + player.playerSum() + ")");
         System.out.println("Dealer's card:" + dealerHand + " (" + dealer.getCardValue(0) + ")");
+    }
+
+    //REQUIRES: play is false. only prints out if the game is over.
+    //EFFECTS: prints out card symbol of each card in dealerHand. prints dealerSum.
+    private void printEndHand() {
+        String dealerHand = "";
+        for (Card c : dealer.getDealerCards()) {
+            dealerHand += " " + c.getSymbol();
+        }
+        System.out.println(dealerHand + " (" + dealer.dealerSum() + ")");
     }
 
     //REQUIRES: playSum and dealSum > 0 (game must have started and hands must have been dealt)
@@ -212,16 +220,6 @@ public class Game implements Writable {
         }
     }
 
-    //REQUIRES: play is false. only prints out if the game is over.
-    //EFFECTS: prints out card symbol of each card in dealerHand. prints dealerSum.
-    private void printEndHand() {
-        String dealerHand = "";
-        for (Card c : dealer.getDealerCards()) {
-            dealerHand += " " + c.getSymbol();
-        }
-        System.out.println(dealerHand + " (" + dealer.dealerSum() + ")");
-    }
-
     //REQUIRES: choice of integer 1 or 2
     //MODIFIES: stand, gameDeck, playerCards
     //EFFECTS: either hits or stands. if choice is 1, hit (returns false). if choice is 2, stand (returns true)
@@ -239,7 +237,11 @@ public class Game implements Writable {
 
     //EFFECTS: asks the user if they wish to keep playing. save to file, or simply quit.
     public void quitDialogue() {
-        System.out.println("Keep playing (any key) Save (s) Quit game (q)");
+        System.out.println("----------------------");
+        System.out.println("Keep playing (any key)");
+        System.out.println("Save         (s)");
+        System.out.println("Quit game    (q)");
+        System.out.println("----------------------");
         String choice = input.next().toLowerCase();
         if (choice.equals("s")) {
             saveGame();
@@ -308,6 +310,7 @@ public class Game implements Writable {
         } else {
             int gameNumber = 0;
             double winPercent = (wins / (losses + wins)) * 100;
+            System.out.println("----------------------");
             System.out.println("Win rate: " + Math.round(winPercent) + "%");
 
             for (Log l : gameLog) {

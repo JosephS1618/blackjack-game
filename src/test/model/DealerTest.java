@@ -3,7 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DealerTest {
     private Dealer dealer1;
@@ -11,6 +11,7 @@ public class DealerTest {
     private Card ace2;
     private Card ten;
     private Card five;
+    private Deck testDeck1;
 
     @BeforeEach
     void runBefore() {
@@ -20,6 +21,12 @@ public class DealerTest {
         ace2 = new Card(11, "A", "S");
         ten = new Card(10, "10", "C");
         five = new Card(5, "5", "D");
+
+        testDeck1 = new Deck();
+        testDeck1.addCard(ace1);
+        testDeck1.addCard(ace2);
+        testDeck1.addCard(ten);
+        testDeck1.addCard(five);
     }
 
     @Test
@@ -103,6 +110,20 @@ public class DealerTest {
         dealer1.addCard(five);
         assertEquals(11, dealer1.getCardValue(0));
         assertEquals(5, dealer1.getCardValue(1));
+    }
+
+    @Test
+    void dealerPlayTest() {
+        assertEquals(0, dealer1.dealerSum());
+        dealer1.play(testDeck1);
+        assertEquals(17, dealer1.dealerSum());
+    }
+
+    @Test
+    void moveCardToHandTest() {
+        dealer1.moveCardToHand(testDeck1);
+        assertTrue(dealer1.getDealerCards().contains(ace1));
+        assertFalse(testDeck1.getCardDeck().contains(ace1));
     }
 
 }
