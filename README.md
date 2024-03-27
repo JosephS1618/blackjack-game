@@ -17,3 +17,5 @@
 - As a user, I want to be able to have the option of resetting their progress (cash, statistics), or automatically doing so when they run out of money.
 - As a user, I want to be able to save the state of the game that they are currently playing (score and stats) or have the option to not save.
 - As a user, I want to be able to have the option to retrieve the last saved game stats and scores from file. 
+- As a user, I want to be able to view the game stats in a clear game UI
+- As a user, I want to have buttons that allow me to click save and quit at all times. 

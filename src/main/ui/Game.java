@@ -178,7 +178,7 @@ public class Game implements Writable {
         }
         dealerHand += " " + dealer.getCardSymbol(0);
 
-        System.out.println("Your cards:" + yourHand + " (" + player.playerSum() + ")");
+        System.out.println("Your cards:"    + yourHand   + " (" + player.playerSum()           + ")");
         System.out.println("Dealer's card:" + dealerHand + " (" + dealer.getCardValue(0) + ")");
     }
 
