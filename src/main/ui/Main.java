@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Game game = new Game();
+            game.initializeGraphics();
             game.runInput();
         } catch (FileNotFoundException e) {
             System.out.println("Unable to run application: file not found");

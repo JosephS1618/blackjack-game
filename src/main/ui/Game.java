@@ -7,6 +7,8 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 import persistence.Writable;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,9 +17,12 @@ import java.util.Scanner;
 
 //Controls aspects of the game, including creating new decks, starting game, game logic,
 // keeping track of cash, and keeping game logs/stats.
-public class Game implements Writable {
+public class Game extends JFrame implements Writable {
     private static final int STARTING_CASH = 500; //starting cash for a new game
     private static final String JSON_STORE = "./data/saved.json";
+    private static final int BOARD_WIDTH = 300;
+    private static final int BOARD_HEIGHT = 300;
+
 
     private Deck gameDeck;
     private Player player;
@@ -36,6 +41,16 @@ public class Game implements Writable {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    private JLabel label;
+    private JTextField field;
+    private JPanel boardPanel;
+    private JPanel buttonPanel;
+    private JButton hitButton;
+    private JButton stayButton;
+    private JButton saveButton;
+    private JTextField betField;
+    private JButton betButton;
+
     Scanner input = new Scanner(System.in);
 
     //Constructor
@@ -45,6 +60,108 @@ public class Game implements Writable {
         gameLog = new ArrayList<>();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
+    }
+
+    public void initializeGraphics() {
+        setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
+        setTitle("BLACKJACK");
+
+        boardPanel = new JPanel();
+        boardPanel.setLayout(null);
+        //boardPanel.setLayout(new BorderLayout());
+        boardPanel.setBackground(new Color(58, 148, 1)); //green
+        add(boardPanel);
+
+        displayTitleGraphics();
+        initializeMenuGraphics();
+//        setUpNewGame(1);
+//        displayPlayerCardGraphics();
+//        displayDealerCardGraphics();
+        //initializeGameButtonGraphics();
+
+        displayBetField();
+
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    public void displayTitleGraphics() {
+        JLabel title = new JLabel("BLACKJACK");
+        title.setBounds(110, 10, 100, 20);
+        title.setForeground(Color.white);
+        boardPanel.add(title, BorderLayout.NORTH);
+
+        String scoreString = "SCORE: " + cash;
+        JLabel score = new JLabel(scoreString);
+        score.setBounds(110, 30, 100, 20);
+        score.setForeground(Color.white);
+        boardPanel.add(score, BorderLayout.NORTH);
+    }
+
+    public void initializeMenuGraphics() {
+        JPanel menuArea = new JPanel();
+        menuArea.setLayout(new GridLayout(0,1));
+        menuArea.setSize(new Dimension(0, 0));
+        add(menuArea, BorderLayout.SOUTH);
+    }
+
+    public void displayBetField() {
+        JLabel betQuestion = new JLabel("BET AMOUNT:");
+        betField = new JTextField(15);
+        betButton = new JButton("BET");
+
+        boardPanel.add(betQuestion, CENTER_ALIGNMENT);
+        boardPanel.add(betField, CENTER_ALIGNMENT);
+        boardPanel.add(betButton);
+    }
+
+    public void displayPlayerCardGraphics() {
+        DefaultListModel<String> listString = new DefaultListModel<>();
+
+        for (Card card : player.getPlayerCards()) {
+            listString.addElement(card.getSymbol());
+        }
+
+        JList<String> list = new JList<>(listString);
+        list.setBounds(50,50, 20,20 * player.getPlayerCards().size());
+        boardPanel.add(list);
+    }
+
+    public void displayDealerCardGraphics() {
+        DefaultListModel<String> listString = new DefaultListModel<>();
+
+        if (stand) {
+            for (Card card : dealer.getDealerCards()) {
+                listString.addElement(card.getSymbol());
+            }
+        } else {
+            listString.addElement(dealer.getDealerCards().get(0).getSymbol());
+        }
+
+        JList<String> list = new JList<>(listString);
+        list.setBounds(240,50, 20,20 * dealer.getDealerCards().size());
+        boardPanel.add(list);
+    }
+
+    public void initializeGameButtonGraphics() {
+        buttonPanel = new JPanel();
+
+        hitButton = new JButton("Hit");
+        hitButton.setFocusable(false);
+        buttonPanel.add(hitButton);
+
+        stayButton = new JButton("Stay");
+        stayButton.setFocusable(false);
+        buttonPanel.add(stayButton);
+
+        saveButton = new JButton("Save");
+        saveButton.setFocusable(false);
+        buttonPanel.add(saveButton);
+
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     // MODIFIES: this
