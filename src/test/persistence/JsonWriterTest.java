@@ -1,6 +1,8 @@
 package persistence;
 
 import model.Deck;
+import model.GameManager;
+import model.GameStatManager;
 import model.Log;
 import org.junit.jupiter.api.Test;
 import ui.Game;
@@ -24,42 +26,45 @@ public class JsonWriterTest {
     }
 
     @Test
-    void testWriterEmptyGameLog() {
+    void testWriterGameManager() {
         try {
             Game game = new Game();
-            game.setUpNewGame(1);
+            game.getManageGame().setUpNewGame(1);
             JsonWriter writer = new JsonWriter("./data/testEmptyGameLog.json");
             writer.open();
-            writer.writeGame(game);
+            writer.write(game);
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testEmptyGameLog.json");
-            List<Log> gameLog = reader.readGameLog();
-            assertEquals(0, gameLog.size());
+
+            GameManager gm = reader.readManageGame();
+            assertEquals(500, gm.getCash());
+            assertNull(gm.getPlay());
+            //assertNull(gm.isStand());
+            assertEquals(0, gm.getBettingAmount());
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
     }
 
     @Test
-    void testWriteDeck() {
+    void testWriteGameStats() {
         try {
             Game game = new Game();
-            game.setUpNewGame(1);
-            JsonWriter writer = new JsonWriter("./data/testWriteDeck.json");
+            game.getManageGame().setUpNewGame(1);
+            JsonWriter writer = new JsonWriter("./data/testFullGameLog.json");
             writer.open();
-            writer.writeGame(game);
+            writer.write(game);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testEmptyGameLog.json");
-            List<Log> gameLog = reader.readGameLog();
-            assertEquals(0, gameLog.size());
-            assertEquals(0, reader.readWins());
-            assertTrue(reader.readPlay());
-            assertEquals(0, reader.readLosses());
-            assertFalse(reader.readStand());
-            assertEquals(500, reader.readCash());
-            assertEquals(0, reader.readBettingAmount());
+            JsonReader reader = new JsonReader("./data/testFullGameLog.json");
+
+            GameStatManager gsm = reader.readManageStats();
+
+            assertEquals(0, gsm.getGameLog().size());
+            assertEquals(0, gsm.getWins());
+            assertEquals(0, gsm.getLosses());
+
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }

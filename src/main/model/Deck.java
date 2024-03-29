@@ -113,13 +113,13 @@ public class Deck {
         cardDeck.remove(0);
     }
 
-    // EFFECTS: returns gameLogs from the game as a JSON array
-    public JSONArray deckToJson() {
-        JSONArray jsonArray = new JSONArray();
-        for (Card card : cardDeck) {
-            jsonArray.put(card.toJson());
-        }
-        return jsonArray;
-    }
+//    // EFFECTS: returns gameLogs from the game as a JSON array
+//    public JSONArray deckToJson() {
+//        JSONArray jsonArray = new JSONArray();
+//        for (Card card : cardDeck) {
+//            jsonArray.put(card.toJson());
+//        }
+//        return jsonArray;
+//    }
 
 }

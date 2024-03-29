@@ -80,11 +80,11 @@ public class Dealer {
         return dealerCards.get(index).getNumber();
     }
 
-    public JSONArray deckToJson() {
-        JSONArray jsonArray = new JSONArray();
-        for (Card card : dealerCards) {
-            jsonArray.put(card.toJson());
-        }
-        return jsonArray;
-    }
+//    public JSONArray deckToJson() {
+//        JSONArray jsonArray = new JSONArray();
+//        for (Card card : dealerCards) {
+//            jsonArray.put(card.toJson());
+//        }
+//        return jsonArray;
+//    }
 }

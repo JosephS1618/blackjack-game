@@ -35,11 +35,11 @@ public class Card {
     }
 
     //EFFECTS: converts the fields to JSON object
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("number", number);
-        json.put("symbol", symbol);
-        json.put("suit", suit);
-        return json;
-    }
+//    public JSONObject toJson() {
+//        JSONObject json = new JSONObject();
+//        json.put("number", number);
+//        json.put("symbol", symbol);
+//        json.put("suit", suit);
+//        return json;
+//    }
 }

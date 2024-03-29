@@ -1,5 +1,7 @@
 package persistence;
 
+import model.GameManager;
+import model.GameStatManager;
 import ui.Game;
 import org.json.JSONObject;
 
@@ -25,9 +27,7 @@ public class JsonWriter {
         writer = new PrintWriter(new File(destination));
     }
 
-    // MODIFIES: this
-    // EFFECTS: writes JSON representation of game to file
-    public void writeGame(Game game) {
+    public void write(Game game) {
         JSONObject json = game.toJson();
         saveToFile(json.toString(TAB));
     }

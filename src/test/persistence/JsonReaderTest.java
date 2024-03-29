@@ -1,5 +1,7 @@
 package persistence;
 
+import model.GameManager;
+import model.GameStatManager;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,7 +14,7 @@ public class JsonReaderTest {
     void testReaderNonExistentFile() {
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {
-            int cash = reader.readCash();
+            GameManager game = reader.readManageGame();
             fail("IOException expected");
         } catch (IOException e) {
             // pass
@@ -20,55 +22,30 @@ public class JsonReaderTest {
     }
 
     @Test
-    void testReaderEmptyGameLog() {
+    void testReaderGame() {
         JsonReader reader = new JsonReader("./data/testEmptyGameLog.json");
         try {
-            assertEquals(0, reader.readGameLog().size());
+            GameManager gm = reader.readManageGame();
+            assertEquals(500, gm.getCash());
+            assertNull(gm.getPlay());
+            //assertNull(gm.isStand());
+            assertEquals(0, gm.getBettingAmount());
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
     }
 
     @Test
-    void testReaderFullGameLog() {
+    void testReaderGameStat() {
         JsonReader reader = new JsonReader("./data/testFullGameLog.json");
         try {
-            assertEquals(6 , reader.readGameLog().size());
+            GameStatManager gsm = reader.readManageStats();
+            assertEquals(0, gsm.getGameLog().size());
+            assertEquals(0, gsm.getWins());
+            assertEquals(0, gsm.getLosses());
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
     }
-
-    @Test
-    void testReaderGeneralGame() {
-        JsonReader reader = new JsonReader("./data/testReaderGeneralGame.json");
-        try {
-            assertEquals(6, reader.readWins());
-            assertFalse(reader.readPlay());
-            assertEquals(0, reader.readLosses());
-            assertTrue(reader.readStand());
-            assertEquals(2200, reader.readCash());
-            assertEquals(400, reader.readBettingAmount());
-        } catch (IOException e) {
-            fail("Couldn't read from file");
-        }
-    }
-
-    @Test
-    void testReaderCards() {
-        JsonReader reader = new JsonReader("./data/testWriteDeck.json");
-        try {
-            assertEquals(48, reader.readDeck().cardDeckSize());
-            assertEquals(2, reader.readPlayer().getPlayerCards().size());
-            assertEquals(2, reader.readDealer().getDealerCards().size());
-        } catch (IOException e) {
-            fail("Couldn't read from file");
-        }
-    }
-
-
-
-
-
 
 }

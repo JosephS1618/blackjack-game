@@ -63,13 +63,13 @@ public class Player {
         return playerCards;
     }
 
-    public JSONArray deckToJson() {
-        JSONArray jsonArray = new JSONArray();
-        for (Card card : playerCards) {
-            jsonArray.put(card.toJson());
-        }
-        return jsonArray;
-    }
+//    public JSONArray deckToJson() {
+//        JSONArray jsonArray = new JSONArray();
+//        for (Card card : playerCards) {
+//            jsonArray.put(card.toJson());
+//        }
+//        return jsonArray;
+//    }
 
 
 }

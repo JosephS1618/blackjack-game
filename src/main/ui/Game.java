@@ -1,65 +1,61 @@
 package ui;
 
 import model.*;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import persistence.Writable;
+import ui.tabs.LoadTab;
+import ui.tabs.SaveTab;
+import ui.tabs.StatsTab;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 //Controls aspects of the game, including creating new decks, starting game, game logic,
 // keeping track of cash, and keeping game logs/stats.
-public class Game extends JFrame implements Writable {
-    private static final int STARTING_CASH = 500; //starting cash for a new game
+public class Game extends JFrame {
     private static final String JSON_STORE = "./data/saved.json";
-    private static final int BOARD_WIDTH = 300;
+    private static final int BOARD_WIDTH = 350;
     private static final int BOARD_HEIGHT = 300;
 
+    Scanner input = new Scanner(System.in);
 
-    private Deck gameDeck;
-    private Player player;
-    private Dealer dealer;
-
-    private int cash;
-    private int bettingAmount;
-
-    private Boolean play; //false = end game. true = continue game
-    private Boolean stand; //false = don't stand. true = stand
-
-    private List<model.Log> gameLog;
-    private double wins;
-    private double losses;
+    private GameManager manageGame;
+    private GameStatManager manageStats;
 
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-    private JLabel label;
-    private JTextField field;
-    private JPanel boardPanel;
+    private DefaultListModel<String> dealDefault;
+    private DefaultListModel<String> playDefault;
+    private JList<String> playerList;
+    private JList<String> dealerList;
     private JPanel buttonPanel;
     private JButton hitButton;
     private JButton stayButton;
-    private JButton saveButton;
-    private JTextField betField;
-    private JButton betButton;
+    private JPanel boardPanel;
+    private JLabel announcement;
+    private JLabel playerSum;
+    private JLabel dealerSum;
 
-    Scanner input = new Scanner(System.in);
+    private JTabbedPane sidebar;
+
+
 
     //Constructor
     //EFFECTS: assigns STARTING_CASH to cash, creates a new empty list of gameLogs.
     public Game() throws FileNotFoundException {
-        cash = STARTING_CASH;
-        gameLog = new ArrayList<>();
+        manageGame = new GameManager();
+        manageStats = new GameStatManager();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
+        initializeGraphics();
     }
 
     public void initializeGraphics() {
@@ -69,23 +65,74 @@ public class Game extends JFrame implements Writable {
         setSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
         setTitle("BLACKJACK");
 
-        boardPanel = new JPanel();
-        boardPanel.setLayout(null);
-        //boardPanel.setLayout(new BorderLayout());
-        boardPanel.setBackground(new Color(58, 148, 1)); //green
-        add(boardPanel);
-
+        setUpBoardPanel();
         displayTitleGraphics();
-        initializeMenuGraphics();
-//        setUpNewGame(1);
-//        displayPlayerCardGraphics();
-//        displayDealerCardGraphics();
-        //initializeGameButtonGraphics();
-
-        displayBetField();
+        displayPlayButton();
+        makeSideBar();
 
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private void setUpBoardPanel() {
+        boardPanel = new JPanel();
+        boardPanel.setLayout(null);
+        boardPanel.setBackground(new Color(58, 148, 1)); //green
+        add(boardPanel);
+    }
+
+    public void makeSideBar() {
+        sidebar = new JTabbedPane();
+        sidebar.setTabPlacement(JTabbedPane.LEFT);
+        //addboard
+        sidebar.add(boardPanel, 0);
+        sidebar.setTitleAt(0, "play");
+        //addstat
+        JPanel statsTab = new StatsTab(this);
+        sidebar.add(statsTab, 1);
+        sidebar.setTitleAt(1, "stats");
+        //save
+        JPanel saveTab = new SaveTab(this);
+        sidebar.add(saveTab, 2);
+        sidebar.setTitleAt(2, "save");
+        //load
+        JPanel loadTab = new LoadTab(this);
+        sidebar.add(loadTab, 3);
+        sidebar.setTitleAt(3, "load");
+        add(sidebar);
+    }
+
+
+
+    public void displayPlayButton() {
+        JButton play = new JButton("Play");
+        play.setBounds(105, 150, 80, 40);
+        boardPanel.add(play);
+        play.setVisible(true);
+
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setupNewGameGUI();
+                manageGame.setUpNewGame(1);
+                boardPanel.updateUI();
+                initializeGameButtonGraphics();
+                displayPlayerCardGraphics();
+                displayDealerCardGraphics();
+                displayAnnouncement();
+                displaySums();
+                hitButton.setEnabled(true);
+                stayButton.setEnabled(true);
+                play.setVisible(false);
+            }
+        });
+    }
+
+    public void setupNewGameGUI() {
+        playDefault = new DefaultListModel<>();
+        playerList = new JList<>(playDefault);
+        playerList.setBounds(50,50, 20,100);
+        boardPanel.add(playerList);
     }
 
     public void displayTitleGraphics() {
@@ -93,57 +140,58 @@ public class Game extends JFrame implements Writable {
         title.setBounds(110, 10, 100, 20);
         title.setForeground(Color.white);
         boardPanel.add(title, BorderLayout.NORTH);
-
-        String scoreString = "SCORE: " + cash;
-        JLabel score = new JLabel(scoreString);
-        score.setBounds(110, 30, 100, 20);
-        score.setForeground(Color.white);
-        boardPanel.add(score, BorderLayout.NORTH);
     }
 
-    public void initializeMenuGraphics() {
-        JPanel menuArea = new JPanel();
-        menuArea.setLayout(new GridLayout(0,1));
-        menuArea.setSize(new Dimension(0, 0));
-        add(menuArea, BorderLayout.SOUTH);
-    }
-
-    public void displayBetField() {
-        JLabel betQuestion = new JLabel("BET AMOUNT:");
-        betField = new JTextField(15);
-        betButton = new JButton("BET");
-
-        boardPanel.add(betQuestion, CENTER_ALIGNMENT);
-        boardPanel.add(betField, CENTER_ALIGNMENT);
-        boardPanel.add(betButton);
+    public void displayAnnouncement() {
+        announcement = new JLabel();
+        announcement.setBounds(130, 100, 50, 50);
+        announcement.setForeground(Color.WHITE);
+        boardPanel.add(announcement);
+        announcement.setVisible(false);
     }
 
     public void displayPlayerCardGraphics() {
-        DefaultListModel<String> listString = new DefaultListModel<>();
+        List<Card> playerCards  = manageGame.getPlayer().getPlayerCards();
 
-        for (Card card : player.getPlayerCards()) {
-            listString.addElement(card.getSymbol());
+        for (Card card : playerCards) {
+            playDefault.addElement(card.getSymbol());
         }
-
-        JList<String> list = new JList<>(listString);
-        list.setBounds(50,50, 20,20 * player.getPlayerCards().size());
-        boardPanel.add(list);
     }
 
     public void displayDealerCardGraphics() {
-        DefaultListModel<String> listString = new DefaultListModel<>();
+        List<Card> dealerCards = manageGame.getDealer().getDealerCards();
+        dealDefault = new DefaultListModel<>();
 
-        if (stand) {
-            for (Card card : dealer.getDealerCards()) {
-                listString.addElement(card.getSymbol());
-            }
-        } else {
-            listString.addElement(dealer.getDealerCards().get(0).getSymbol());
+        dealDefault.addElement(dealerCards.get(0).getSymbol());
+
+        dealerList = new JList<>(dealDefault);
+        dealerList.setBounds(240,50, 20,100);
+        boardPanel.add(dealerList);
+    }
+
+    public void displaySums() {
+        playerSum = new JLabel();
+        playerSum.setForeground(Color.WHITE);
+        playerSum.setBounds(50, 30, 50, 20);
+        boardPanel.add(playerSum);
+
+        dealerSum = new JLabel();
+        dealerSum.setForeground(Color.WHITE);
+        dealerSum.setBounds(240, 30, 50, 20);
+        boardPanel.add(dealerSum);
+    }
+
+    public void displayEndCardGraphics() {
+        List<Card> dealerCards = manageGame.getDealer().getDealerCards();
+        dealDefault.removeAllElements();
+
+        for (Card card : dealerCards) {
+            dealDefault.addElement(card.getSymbol());
         }
 
-        JList<String> list = new JList<>(listString);
-        list.setBounds(240,50, 20,20 * dealer.getDealerCards().size());
-        boardPanel.add(list);
+        dealerList = new JList<>(dealDefault);
+        dealerList.setBounds(240,50, 20,20 * dealDefault.size());
+        boardPanel.add(dealerList);
     }
 
     public void initializeGameButtonGraphics() {
@@ -157,12 +205,62 @@ public class Game extends JFrame implements Writable {
         stayButton.setFocusable(false);
         buttonPanel.add(stayButton);
 
-        saveButton = new JButton("Save");
-        saveButton.setFocusable(false);
-        buttonPanel.add(saveButton);
-
         add(buttonPanel, BorderLayout.SOUTH);
+
+        hitOrStayAction();
     }
+
+    public void hitOrStayAction() {
+        hitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //playDefault.addElement(manageGame.getGameDeck().getCardDeck().get(0).getSymbol());
+                playDefault.removeAllElements();
+                displayPlayerCardGraphics();
+                manageGame.hit();
+                checkGame();
+            }
+        });
+
+        stayButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hitButton.setEnabled(false);
+                stayButton.setEnabled(false);
+                displayEndCardGraphics();
+                manageGame.stand();
+                checkGame();
+            }
+        });
+    }
+
+    public void checkGame() {
+        manageGame.playGame(manageGame.getPlayer().playerSum(), manageGame.getDealer().dealerSum());
+        String sumPlayer = String.valueOf(manageGame.getPlayer().playerSum());
+
+        playerSum.setText(sumPlayer);
+
+        if (manageGame.getOutcome() == "win") {
+            endGameFunctions("WIN");
+        } else if (manageGame.getOutcome() == "lose") {
+            endGameFunctions("LOSE");
+        } else if (manageGame.getOutcome() == "tie") {
+            endGameFunctions("TIE");
+        }
+    }
+
+    public void endGameFunctions(String message) {
+        getOutcome();
+        hitButton.setEnabled(false);
+        stayButton.setEnabled(false);
+        announcement.setText(message);
+        announcement.setVisible(true);
+        String sumDealer = String.valueOf(manageGame.getDealer().dealerSum());
+        dealerSum.setText(sumDealer);
+        displayEndCardGraphics();
+        displayPlayButton();
+    }
+
 
     // MODIFIES: this
     // EFFECTS: runs user input. If the player cash == 0, cash is reset.
@@ -180,16 +278,16 @@ public class Game extends JFrame implements Writable {
                 processInput(select);
             }
 
-            if (cash == 0) {
+            if (manageGame.getCash() == 0) {
                 System.out.println("SCORE: 0\nGAME OVER\n...\nGAME RESETS");
-                cash = STARTING_CASH;
+                manageGame.setCash(500);
             }
         }
     }
 
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
-        System.out.println("----------BLACKJACK----------\nSCORE: $" + cash);
+        System.out.println("----------BLACKJACK----------\nSCORE: $" + manageGame.getCash());
         System.out.println("0. Quit ");
         System.out.println("1. Classic Mode (one deck)");
         System.out.println("2. Party Mode (six decks)");
@@ -201,39 +299,18 @@ public class Game extends JFrame implements Writable {
     //EFFECTS: Asks users for menu input.
     public void processInput(int input) {
         if (input == 1 || input == 2) {
-            setUpNewGame(input);
+            manageGame.setUpNewGame(input);
             makeBet(); // asks user for bet
-            runGame();
+            playGame();
         } else if (input == 3) {
-            printGameStatsLog();
+            manageStats.printGameStatsLog();
         } else if (input == 4) {
             saveGame();
         } else if (input == 5) {
-            loadGameLog();
+            loadGame();
         } else {
             System.out.println("Invalid input");
         }
-    }
-
-    //REQUIRES: select either 1 or 2
-    //EFFECTS: sets up objects required for a new game. also sets up a new deck based on input 1 or 2.
-    // (1) classic deck or (2) party deck. sets up starting variables play, stand, and bettingAmount.
-    public void setUpNewGame(int select) {
-        gameDeck = new Deck();
-        player = new Player();
-        dealer = new Dealer();
-        play = true;
-        stand = false;
-        bettingAmount = 0;
-
-        if (select == 1) {
-            gameDeck.makeClassicDeck();
-        } else if (select == 2) {
-            gameDeck.makePartyDeck();
-        }
-
-        gameDeck.shuffle(); // shuffles the deck
-        firstDeal(); // gives player and dealer two cards each
     }
 
     //MODIFIES: this
@@ -242,6 +319,7 @@ public class Game extends JFrame implements Writable {
     // prints out a bet confirmation, while also printing out error messages if
     // inputted bet is invalid (negative amount or greater than total).
     private void makeBet() {
+        int cash = manageGame.getCash();
         int choice = cash + 1;
 
         System.out.print("Betting amount" + " (max " + cash + "): ");
@@ -253,103 +331,34 @@ public class Game extends JFrame implements Writable {
                 System.out.println("Bet must be greater than zero!");
             }
         }
-        bettingAmount = choice;
-        System.out.println("You are betting: " + bettingAmount);
+
+        System.out.println("You are betting: " + choice);
         System.out.println("----------------------");
-        cash -= bettingAmount;
+
+        manageGame.removeBetFromCash(choice);
+        manageGame.setBettingAmount(choice);
     }
 
-    //MODIFIES: this, playerCard, dealerCard
-    //EFFECTS: draws two cards each for the player and the dealer.
-    // Alternates adding the first card to playerCards and dealerCards twice. Removes
-    // the added cards from gameDeck after each add.
-    public void firstDeal() {
-        for (int i = 0; i < 2; i++) {
-            player.moveCardToHand(gameDeck);
-            dealer.moveCardToHand(gameDeck);
-        }
-    }
-
-    //REQUIRES: select either 1 or 2
-    //MODIFIES: this, Deck cardDeck, Player playerCards, Dealer dealerCards.
-    //EFFECTS: sets up the game, controls game logic (calling playGame),
-    // controls bets (makeBet), outputs win, loss, tie. Prints dealer and player hands
-    // in printHands and printEndHand.
-    public void runGame() {
+    private void playGame() {
         do {
-            printHands(); // prints your entire hand and the first card of the dealer
-            playGame(player.playerSum(), dealer.dealerSum()); // main game logic
-        } while (play);
-
-        printEndHand(); // prints the dealers entire hand.
+            manageGame.runGame();
+            hitOrStand();
+            repaint();
+        } while (manageGame.getPlay());
+        displayDealerCardGraphics();
+        getOutcome();
     }
 
-    //REQUIRES: playerCards and dealerCards are not empty.
-    //EFFECTS: prints out the dealer and players hands (card symbol)
-    // and current totals (sum of card values). only shows the dealers first card
-    private void printHands() {
-        String yourHand = "";
-        String dealerHand = "";
-        for (Card c : player.getPlayerCards()) {
-            yourHand += " " + c.getSymbol();
-        }
-        dealerHand += " " + dealer.getCardSymbol(0);
-
-        System.out.println("Your cards:"    + yourHand   + " (" + player.playerSum()           + ")");
-        System.out.println("Dealer's card:" + dealerHand + " (" + dealer.getCardValue(0) + ")");
-    }
-
-    //REQUIRES: play is false. only prints out if the game is over.
-    //EFFECTS: prints out card symbol of each card in dealerHand. prints dealerSum.
-    private void printEndHand() {
-        String dealerHand = "";
-        for (Card c : dealer.getDealerCards()) {
-            dealerHand += " " + c.getSymbol();
-        }
-        System.out.println(dealerHand + " (" + dealer.dealerSum() + ")");
-    }
-
-    //REQUIRES: playSum and dealSum > 0 (game must have started and hands must have been dealt)
-    //MODIFIES: this
-    //EFFECTS: main logic for the game. determines if a player wins, loses, or ties. takes in user input for
-    // hitting (drawing cards) or standing (stop and calls dealerPlay).
-    public void playGame(int playSum, int dealSum) {
-        if (stand && playSum == dealSum) { // stand and tie
-            outcomeStandoff();
-        } else if (playSum == 21 && dealSum == 21) { // 21 and tie
-            outcomeStandoff();
-        } else if (playSum == 21) { // win and blackjack
-            outcomePlayerWins("Blackjack!", true);
-        } else if (playSum > 21) { // lose and player busts
-            outcomePlayerLoses("Player busts.");
-        } else if (dealSum > 21) { // win and dealer busts
-            outcomePlayerWins("Dealer busts!", false);
-        } else if (stand && (playSum < dealSum)) { // stand and dealer is closer to 21
-            outcomePlayerLoses("Dealer closer to 21.");
-        } else if (stand) { // stand and player is closer to 21 (second part is true regardless)
-            outcomePlayerWins("You're closer to 21!", false);
-        } else {
-            quitDialogue();
-            stand = hitOrStand();
-            if (stand) {
-                dealer.play(gameDeck); // dealer draws until over 17
+    private void hitOrStand() {
+        if (manageGame.getPlay()) {
+            System.out.println("(1) Hit (2) Stand");
+            int choice = input.nextInt();
+            if (choice == 1) {
+                manageGame.hit();
+            } else if (choice == 2) {
+                manageGame.stand();
             }
         }
-    }
-
-    //REQUIRES: choice of integer 1 or 2
-    //MODIFIES: stand, gameDeck, playerCards
-    //EFFECTS: either hits or stands. if choice is 1, hit (returns false). if choice is 2, stand (returns true)
-    // hitting adds a card to the playerHand and removes a card from gameDeck.
-    private boolean hitOrStand() {
-        System.out.println("Hit (1), Stand (2)"); // either hit or stand.
-        int choice = input.nextInt();
-
-        if (choice == 1) {
-            player.moveCardToHand(gameDeck);
-            return false; // hit
-        }
-        return true; // stand
     }
 
     //EFFECTS: asks the user if they wish to keep playing. save to file, or simply quit.
@@ -370,79 +379,36 @@ public class Game extends JFrame implements Writable {
         }
     }
 
-    //REQUIRES: boolean blackjack is not null.
-    //MODIFIES: this
-    //EFFECTS: prints out a win statement. returns game wins.
-    // if win and blackjack, adds 3:2 (bettingAmount * 2.5) amount.
-    // otherwise match bet 1:1 (bettingAmount * 2) and adds to cash.
-    // play is stopped (false), win is added, and gameLog win added.
-    private void outcomePlayerWins(String description, Boolean blackjack) {
-        System.out.println(description + " Player wins!");
-        if (blackjack) {
-            cash += bettingAmount * 2.5;
-            addGameLog(true, false, cash, (bettingAmount * 1.5));
+    private void getOutcome() {
+        int cash = manageGame.getCash();
+        int bet = manageGame.getBettingAmount();
+
+        if (manageGame.getOutcome() == "win") {
+            manageStats.addWins();
+            blackjackOutcome(cash, bet);
+        } else if (manageGame.getOutcome() == "lose") {
+            manageStats.addLosses();
+            manageStats.addGameLog(false, true, cash, -bet);
         } else {
-            cash += bettingAmount * 2;
-            addGameLog(true, false, cash, bettingAmount);
-        }
-        play = false;
-        wins++;
-    }
-
-    //MODIFIES: this
-    //EFFECTS: prints out a losing statement. cash and bets are not changed.
-    //play is stopped (false), loss is added and gameLog loss is added
-    // with negative bettingAmount difference added.
-    private void outcomePlayerLoses(String description) {
-        System.out.println(description + " Dealer wins.");
-        play = false;
-        losses++;
-        addGameLog(false, true, cash, -bettingAmount);
-    }
-
-    //MODIFIES: this
-    //EFFECTS: bets are returned in full to cash total.
-    // (no change in cash before bet and after game)
-    //play is stopped (false), and gameLog tie is added.
-    private void outcomeStandoff() {
-        System.out.println("Standoff! Bets are returned.");
-        cash += bettingAmount;
-        play = false;
-        addGameLog(true, true, cash, 0);
-    }
-
-    //MODIFIES: this
-    //EFFECTS: creates a new game log with specified won or loss, current cash, and difference.
-    // newLog is added to gameLog.
-    public void addGameLog(boolean won, boolean loss, int cashLog, double difference) {
-        model.Log newLog = new model.Log(won, loss, cashLog, difference);
-        gameLog.add(newLog);
-    }
-
-    //EFFECTS: prints the win/loss percent and each log in gameLog in the format of win/loss/tie,
-    // cash score, and diff (money difference from game).
-    public void printGameStatsLog() {
-        if (gameLog.isEmpty()) {
-            System.out.println("No games played yet");
-        } else {
-            int gameNumber = 0;
-            double winPercent = (wins / (losses + wins)) * 100;
-            System.out.println("----------------------");
-            System.out.println("Win rate: " + Math.round(winPercent) + "%");
-
-            for (Log l : gameLog) {
-                gameNumber++;
-                System.out.println("Game " + gameNumber);
-                System.out.println(l.winLossStatus() + " - Score: " + l.getCashLog() + " - Diff: " + l.getDifference());
-            }
+            manageStats.addGameLog(true, true, cash, 0);
         }
     }
 
-    //EFFECTS: saves fields of the game by writing to the JSON file.
-    private void saveGame() {
+    private void blackjackOutcome(int cash, int bet) {
+        if (manageGame.isBlackjack()) {
+            cash += bet * 2.5;
+            manageStats.addGameLog(true, false, cash, (bet * 1.5));
+        } else {
+            cash += bet * 2;
+            manageStats.addGameLog(true, false, cash, bet);
+        }
+    }
+
+    // EFFECTS: saves fields of the game by writing to the JSON file.
+    public void saveGame() {
         try {
             jsonWriter.open();
-            jsonWriter.writeGame(this);
+            jsonWriter.write(this);
             jsonWriter.close();
             System.out.println("Saved stats to " + JSON_STORE);
         } catch (FileNotFoundException e) {
@@ -450,53 +416,32 @@ public class Game extends JFrame implements Writable {
         }
     }
 
-    @Override
     //EFFECTS: converts the all fields necessary to play a game to JSON format.
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("cash", cash);
-        json.put("bettingAmount", bettingAmount);
-        json.put("wins", wins);
-        json.put("losses", losses);
-        json.put("gameLog", gameLogToJson());
-        json.put("play", play);
-        json.put("stand", stand);
-        json.put("player", player.deckToJson());
-        json.put("dealer", dealer.deckToJson());
-        json.put("gameDeck", gameDeck.deckToJson());
+        json.put("gameManager", manageGame.toJson());
+        json.put("gameStats", manageStats.toJson());
         return json;
-    }
-
-    // EFFECTS: returns gameLogs from the game as a JSON array
-    private JSONArray gameLogToJson() {
-        JSONArray jsonArray = new JSONArray();
-        for (model.Log l : gameLog) {
-            jsonArray.put(l.toJson());
-        }
-        return jsonArray;
     }
 
     // MODIFIES: this
     // EFFECTS: loads game data from file
-    private void loadGameLog() {
+    public void loadGame() {
         try {
-            gameLog = jsonReader.readGameLog();
-            cash = jsonReader.readCash();
-            bettingAmount = jsonReader.readBettingAmount();
-            wins = jsonReader.readWins();
-            losses = jsonReader.readLosses();
-            play = jsonReader.readPlay();
-            stand = jsonReader.readStand();
-            gameDeck = jsonReader.readDeck();
-            player = jsonReader.readPlayer();
-            dealer = jsonReader.readDealer();
+            manageGame = jsonReader.readManageGame();
+            manageStats = jsonReader.readManageStats();
             System.out.println("Loaded from " + JSON_STORE);
-            if (play) {
-                runGame(); // if saved while playing game.
-            }
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
+    }
+
+    public GameManager getManageGame() {
+        return manageGame;
+    }
+
+    public List<Log> getStats() {
+        return manageStats.getGameLog();
     }
 
 }

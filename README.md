@@ -19,3 +19,12 @@
 - As a user, I want to be able to have the option to retrieve the last saved game stats and scores from file. 
 - As a user, I want to be able to view the game stats in a clear game UI
 - As a user, I want to have buttons that allow me to click save and quit at all times. 
+
+
+## Instructions for Grader:
+- Add an X by playing the game. Select the play on the sidebar and press play.
+- View the Y by selecting the stats tab and seeing the list of games played.
+- Save and load the Y (game outcomes) by selecting save, followed by load. 
+- Select the update button in the stats tab to see the visual component (showing list of game outcomes)
+- 
+- 

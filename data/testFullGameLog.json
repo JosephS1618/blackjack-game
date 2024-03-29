@@ -1,40 +1,13 @@
 {
-  "gameLog": [
-    {
-      "loss": false,
-      "cashLog": 700,
-      "won": true,
-      "difference": 200
+    "gameManager": {
+        "play": true,
+        "stand": false,
+        "cash": 500,
+        "bettingAmount": 0
     },
-    {
-      "loss": false,
-      "cashLog": 1000,
-      "won": true,
-      "difference": 300
-    },
-    {
-      "loss": false,
-      "cashLog": 1300,
-      "won": true,
-      "difference": 300
-    },
-    {
-      "loss": false,
-      "cashLog": 1600,
-      "won": true,
-      "difference": 300
-    },
-    {
-      "loss": false,
-      "cashLog": 1800,
-      "won": true,
-      "difference": 200
-    },
-    {
-      "loss": false,
-      "cashLog": 2200,
-      "won": true,
-      "difference": 400
+    "gameStats": {
+        "wins": 0,
+        "gameLog": [],
+        "losses": 0
     }
-  ]
 }
