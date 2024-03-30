@@ -6,18 +6,12 @@
         "bettingAmount": 0
     },
     "gameStats": {
-        "wins": 0,
+        "wins": 1,
         "gameLog": [
             {
-                "loss": true,
+                "loss": false,
                 "cashLog": 500,
-                "won": false,
-                "difference": 0
-            },
-            {
-                "loss": true,
-                "cashLog": 500,
-                "won": false,
+                "won": true,
                 "difference": 0
             },
             {
@@ -27,6 +21,6 @@
                 "difference": 0
             }
         ],
-        "losses": 3
+        "losses": 1
     }
 }

@@ -26,5 +26,4 @@
 - View the Y by selecting the stats tab and seeing the list of games played.
 - Save and load the Y (game outcomes) by selecting save, followed by load. 
 - Select the update button in the stats tab to see the visual component (showing list of game outcomes)
-- 
-- 
+- You can also select to view specifics of the X (game outcomes). select the "Get wins" and "get losses" buttons in the stats panel to get the number of wins and losses

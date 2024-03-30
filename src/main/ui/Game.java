@@ -8,10 +8,13 @@ import ui.tabs.LoadTab;
 import ui.tabs.SaveTab;
 import ui.tabs.StatsTab;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -36,17 +39,19 @@ public class Game extends JFrame {
     private DefaultListModel<String> playDefault;
     private JList<String> playerList;
     private JList<String> dealerList;
+
     private JPanel buttonPanel;
+    private JPanel boardPanel;
+
     private JButton hitButton;
     private JButton stayButton;
-    private JPanel boardPanel;
-    private JLabel announcement;
-    private JLabel playerSum;
-    private JLabel dealerSum;
+    private JButton playButton;
 
     private JTabbedPane sidebar;
 
-
+    private JLabel announcement;
+    private JLabel playerSum;
+    private JLabel dealerSum;
 
     //Constructor
     //EFFECTS: assigns STARTING_CASH to cash, creates a new empty list of gameLogs.
@@ -58,6 +63,8 @@ public class Game extends JFrame {
         initializeGraphics();
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets up the JFrame and the basic panels making up the game menu.
     public void initializeGraphics() {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,11 +76,18 @@ public class Game extends JFrame {
         displayTitleGraphics();
         displayPlayButton();
         makeSideBar();
+        displayAnnouncement();
+        initializeCardGUI();
+        initializeGameButtonGraphics();
+        displaySums();
+        playButton.setVisible(true);
 
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets up the boardPanel where the game is played on.
     private void setUpBoardPanel() {
         boardPanel = new JPanel();
         boardPanel.setLayout(null);
@@ -81,13 +95,15 @@ public class Game extends JFrame {
         add(boardPanel);
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets up the sidebar menu.
     public void makeSideBar() {
         sidebar = new JTabbedPane();
         sidebar.setTabPlacement(JTabbedPane.LEFT);
-        //addboard
+        //add board
         sidebar.add(boardPanel, 0);
         sidebar.setTitleAt(0, "play");
-        //addstat
+        //add stat
         JPanel statsTab = new StatsTab(this);
         sidebar.add(statsTab, 1);
         sidebar.setTitleAt(1, "stats");
@@ -102,39 +118,33 @@ public class Game extends JFrame {
         add(sidebar);
     }
 
-
-
+    //TODO fix
+    //MODIFIES: this
+    //EFFECTS: sets up the play button that starts the game
     public void displayPlayButton() {
-        JButton play = new JButton("Play");
-        play.setBounds(105, 150, 80, 40);
-        boardPanel.add(play);
-        play.setVisible(true);
+        playButton = new JButton("Play");
+        playButton.setBounds(105, 150, 80, 40);
+        boardPanel.add(playButton);
+        playButton.setVisible(false);
 
-        play.addActionListener(new ActionListener() {
+        playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setupNewGameGUI();
                 manageGame.setUpNewGame(1);
-                boardPanel.updateUI();
-                initializeGameButtonGraphics();
-                displayPlayerCardGraphics();
-                displayDealerCardGraphics();
-                displayAnnouncement();
-                displaySums();
+                updatePlayerCardGraphics();
+                updateDealerCardGraphics();
+                updatePlayerSum();
+                updateDealerSumFirst();
+                announcement.setVisible(false);
                 hitButton.setEnabled(true);
                 stayButton.setEnabled(true);
-                play.setVisible(false);
+                playButton.setVisible(false);
             }
         });
     }
 
-    public void setupNewGameGUI() {
-        playDefault = new DefaultListModel<>();
-        playerList = new JList<>(playDefault);
-        playerList.setBounds(50,50, 20,100);
-        boardPanel.add(playerList);
-    }
-
+    //MODIFIES: this
+    //EFFECTS: sets up the title of the game in boardPanel.
     public void displayTitleGraphics() {
         JLabel title = new JLabel("BLACKJACK");
         title.setBounds(110, 10, 100, 20);
@@ -142,6 +152,8 @@ public class Game extends JFrame {
         boardPanel.add(title, BorderLayout.NORTH);
     }
 
+    //MODIFIES: this
+    //EFFECTS:displays the announcement for win or loss.
     public void displayAnnouncement() {
         announcement = new JLabel();
         announcement.setBounds(130, 100, 50, 50);
@@ -150,25 +162,54 @@ public class Game extends JFrame {
         announcement.setVisible(false);
     }
 
-    public void displayPlayerCardGraphics() {
+    //MODIFIES: this
+    //EFFECTS: restarts the GUI for game. resets the player and dealer cards.
+    public void initializeCardGUI() {
+        playDefault = new DefaultListModel<>();
+        playerList = new JList<>(playDefault);
+        boardPanel.add(playerList);
+
+        dealDefault = new DefaultListModel<>();
+        dealerList = new JList<>(dealDefault);
+        boardPanel.add(dealerList);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: displays the player cards.
+    public void updatePlayerCardGraphics() {
         List<Card> playerCards  = manageGame.getPlayer().getPlayerCards();
+        playDefault.removeAllElements();
 
         for (Card card : playerCards) {
             playDefault.addElement(card.getSymbol());
         }
+        playerList.setBounds(50,50, 20, 20 * playerCards.size());
     }
 
-    public void displayDealerCardGraphics() {
+    //MODIFIES: this
+    //EFFECTS: displays the dealer cards.
+    public void updateDealerCardGraphics() {
         List<Card> dealerCards = manageGame.getDealer().getDealerCards();
-        dealDefault = new DefaultListModel<>();
-
-        dealDefault.addElement(dealerCards.get(0).getSymbol());
-
-        dealerList = new JList<>(dealDefault);
-        dealerList.setBounds(240,50, 20,100);
-        boardPanel.add(dealerList);
+        dealDefault.removeAllElements();
+        dealDefault.addElement(dealerCards.get(0).getSymbol()); //gets the first in dealer's deck
+        dealerList.setBounds(240,50, 20,20 * dealerCards.size());
     }
 
+    //MODIFIES: this
+    //EFFECTS: shows the dealer's entire hands at the end.
+    public void updateDealerCardGraphicsAtEnd() {
+        List<Card> dealerCards = manageGame.getDealer().getDealerCards();
+        dealDefault.removeAllElements();
+
+        for (Card card : dealerCards) {
+            dealDefault.addElement(card.getSymbol()); //gets all the cards in the dealer's deck
+        }
+
+        dealerList.setBounds(240,50, 20,20 * dealerCards.size());
+    }
+
+    //MODIFIES: this
+    //EFFECTS: displays the sum shown above the player and dealer cards.
     public void displaySums() {
         playerSum = new JLabel();
         playerSum.setForeground(Color.WHITE);
@@ -181,19 +222,8 @@ public class Game extends JFrame {
         boardPanel.add(dealerSum);
     }
 
-    public void displayEndCardGraphics() {
-        List<Card> dealerCards = manageGame.getDealer().getDealerCards();
-        dealDefault.removeAllElements();
-
-        for (Card card : dealerCards) {
-            dealDefault.addElement(card.getSymbol());
-        }
-
-        dealerList = new JList<>(dealDefault);
-        dealerList.setBounds(240,50, 20,20 * dealDefault.size());
-        boardPanel.add(dealerList);
-    }
-
+    //MODIFIES: this
+    //EFFECTS: initializes the game buttons hit and stay
     public void initializeGameButtonGraphics() {
         buttonPanel = new JPanel();
 
@@ -210,14 +240,14 @@ public class Game extends JFrame {
         hitOrStayAction();
     }
 
+    //MODIFIES: this
+    //EFFECTS: checks the action for the hit and stay button.
     public void hitOrStayAction() {
         hitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //playDefault.addElement(manageGame.getGameDeck().getCardDeck().get(0).getSymbol());
-                playDefault.removeAllElements();
-                displayPlayerCardGraphics();
                 manageGame.hit();
+                updatePlayerCardGraphics();
                 checkGame();
             }
         });
@@ -225,40 +255,66 @@ public class Game extends JFrame {
         stayButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                manageGame.stand();
                 hitButton.setEnabled(false);
                 stayButton.setEnabled(false);
-                displayEndCardGraphics();
-                manageGame.stand();
+                updateDealerCardGraphicsAtEnd();
+                updateDealerSum();
                 checkGame();
             }
         });
     }
 
+    //MODIFIES: this
+    //EFFECTS: checks the game logic with playGame.
     public void checkGame() {
         manageGame.playGame(manageGame.getPlayer().playerSum(), manageGame.getDealer().dealerSum());
-        String sumPlayer = String.valueOf(manageGame.getPlayer().playerSum());
+        updatePlayerSum();
 
-        playerSum.setText(sumPlayer);
-
-        if (manageGame.getOutcome() == "win") {
+        if (manageGame.getOutcome().equals("win")) {
             endGameFunctions("WIN");
-        } else if (manageGame.getOutcome() == "lose") {
+        } else if (manageGame.getOutcome().equals("lose")) {
             endGameFunctions("LOSE");
-        } else if (manageGame.getOutcome() == "tie") {
+        } else if (manageGame.getOutcome().equals("tie")) {
             endGameFunctions("TIE");
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: restarts the game.
     public void endGameFunctions(String message) {
         getOutcome();
         hitButton.setEnabled(false);
         stayButton.setEnabled(false);
         announcement.setText(message);
         announcement.setVisible(true);
+        updateDealerSum();
+        updateDealerCardGraphicsAtEnd();
+        playButton.setVisible(true);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: modifies the player sum to update to the total sum
+    public void updatePlayerSum() {
+        String sumPlayer = String.valueOf(manageGame.getPlayer().playerSum());
+        playerSum.setText(sumPlayer);
+        playerSum.setVisible(true);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: updates the dealer sum to show the total sum
+    public void updateDealerSum() {
         String sumDealer = String.valueOf(manageGame.getDealer().dealerSum());
         dealerSum.setText(sumDealer);
-        displayEndCardGraphics();
-        displayPlayButton();
+        dealerSum.setVisible(true);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: updates the dealer sum to show the first sum.
+    public void updateDealerSumFirst() {
+        String sumDealer = String.valueOf(manageGame.getDealer().getDealerCards().get(0).getNumber());
+        dealerSum.setText(sumDealer);
+        dealerSum.setVisible(true);
     }
 
 
@@ -345,7 +401,7 @@ public class Game extends JFrame {
             hitOrStand();
             repaint();
         } while (manageGame.getPlay());
-        displayDealerCardGraphics();
+        updateDealerCardGraphics();
         getOutcome();
     }
 
@@ -383,10 +439,10 @@ public class Game extends JFrame {
         int cash = manageGame.getCash();
         int bet = manageGame.getBettingAmount();
 
-        if (manageGame.getOutcome() == "win") {
+        if (manageGame.getOutcome().equals("win")) {
             manageStats.addWins();
             blackjackOutcome(cash, bet);
-        } else if (manageGame.getOutcome() == "lose") {
+        } else if (manageGame.getOutcome().equals("lose")) {
             manageStats.addLosses();
             manageStats.addGameLog(false, true, cash, -bet);
         } else {
@@ -438,6 +494,10 @@ public class Game extends JFrame {
 
     public GameManager getManageGame() {
         return manageGame;
+    }
+
+    public GameStatManager getManageStats() {
+        return manageStats;
     }
 
     public List<Log> getStats() {

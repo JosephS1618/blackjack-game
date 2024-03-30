@@ -36,7 +36,7 @@ public class GameManagerTest {
     }
 
     @Test
-    public void testOutcomeStandoffStand() {
+    void testOutcomeStandoffStand() {
         g.setUpNewGame(2);
         g.setStand(true);
         g.playGame(20, 20);
@@ -44,14 +44,14 @@ public class GameManagerTest {
     }
 
     @Test
-    public void testOutcomeStandoffTie() {
+    void testOutcomeStandoffTie() {
         g.setUpNewGame(2);
         g.playGame(21, 21);
         assertEquals("tie", g.getOutcome());
     }
 
     @Test
-    public void testOutcomePlayerWinsBlackJack() {
+    void testOutcomePlayerWinsBlackJack() {
         g.setUpNewGame(2);
         g.playGame(21, 18);
         assertEquals("win", g.getOutcome());
@@ -59,7 +59,7 @@ public class GameManagerTest {
     }
 
     @Test
-    public void testOutcomePlayerWinsLarger() {
+    void testOutcomePlayerWinsLarger() {
         g.setUpNewGame(2);
         g.setStand(true);
         g.playGame(19, 18);
@@ -67,7 +67,7 @@ public class GameManagerTest {
     }
 
     @Test
-    public void testOutcomePlayerWins() {
+    void testOutcomePlayerWins() {
         g.setUpNewGame(1);
         g.setStand(true);
         g.playGame(20, 18);
@@ -75,7 +75,15 @@ public class GameManagerTest {
     }
 
     @Test
-    public void testOutcomePlayerLoses() {
+    void testOutcomePlayerWinsDealerBusts() {
+        g.setUpNewGame(1);
+        g.setStand(true);
+        g.playGame(20, 22);
+        assertEquals("win", g.getOutcome());
+    }
+
+    @Test
+    void testOutcomePlayerLoses() {
         g.setUpNewGame(2);
         g.setStand(true);
         g.playGame(19, 20);
@@ -83,10 +91,38 @@ public class GameManagerTest {
     }
 
     @Test
-    public void testOutcomePlayerLosesBust() {
+    void testOutcomePlayerLosesBust() {
         g.setUpNewGame(2);
         g.playGame(22, 20);
         assertEquals("lose", g.getOutcome());
     }
+
+    @Test
+    void testRunGame() {
+        g.setUpNewGame(1);
+        g.runGame();
+        assertNull(g.getOutcome());
+    }
+
+    @Test
+    void testHit() {
+        g.setUpNewGame(1);
+        g.hit();
+        assertEquals(3, g.getPlayer().getPlayerCards().size());
+        assertEquals(47, g.getGameDeck().getCardDeck().size());
+    }
+
+    @Test
+    void testStand() {
+        g.setUpNewGame(1);
+        assertFalse(g.getStand());
+    }
+
+    @Test
+    void testSetPlay() {
+        g.setPlay(true);
+        assertTrue(g.getPlay());
+    }
+
 
 }

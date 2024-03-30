@@ -30,6 +30,7 @@ public class GameManager extends MessagePrinter implements Writable {
         bettingAmount = 0;
         blackjack = false;
         play = true;
+        outcome = null;
 
         if (select == 1) {
             gameDeck.makeClassicDeck();

@@ -24,7 +24,7 @@ public class GameStatManager extends MessagePrinter implements Writable {
     //EFFECTS: creates a new game log with specified won or loss, current cash, and difference.
     // newLog is added to gameLog.
     public void addGameLog(boolean won, boolean loss, int cashLog, double difference) {
-        model.Log newLog = new model.Log(won, loss, cashLog, difference);
+        Log newLog = new Log(won, loss, cashLog, difference);
         gameLog.add(newLog);
     }
 
