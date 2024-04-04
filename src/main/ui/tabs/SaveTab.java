@@ -7,9 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// contains the methods related to the "save" tab on the menu screen
 public class SaveTab extends Tab {
     JLabel message;
 
+    //EFFECTS: sets the controller Game, and initializes visuals.
     public SaveTab(Game controller) {
         super(controller);
         setLayout(new BorderLayout());
@@ -20,6 +22,8 @@ public class SaveTab extends Tab {
         placeSaveButton();
     }
 
+    //MODIFIES: this
+    //EFFECTS: creates the button for saving game information.
     private void placeSaveButton() {
         JButton save = new JButton("save");
         save.addActionListener(new ActionListener() {

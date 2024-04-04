@@ -7,9 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// contains the methods related to the "load" tab on the menu screen
 public class LoadTab extends Tab {
     JLabel message;
 
+    //EFFECTS: sets the controller Game, and initializes visuals.
     public LoadTab(Game controller) {
         super(controller);
         setLayout(new BorderLayout());
@@ -20,6 +22,8 @@ public class LoadTab extends Tab {
         placeLoadButton();
     }
 
+    //MODIFIES: this
+    //EFFECTS: creates the button for loading game information.
     private void placeLoadButton() {
         JButton load = new JButton("load");
         load.addActionListener(new ActionListener() {

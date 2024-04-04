@@ -183,7 +183,7 @@ public class Game extends JFrame {
         for (Card card : playerCards) {
             playDefault.addElement(card.getSymbol());
         }
-        playerList.setBounds(50,50, 20, 20 * playerCards.size());
+        playerList.setBounds(50,50, 20, 18 * playerCards.size());
     }
 
     //MODIFIES: this
@@ -192,7 +192,7 @@ public class Game extends JFrame {
         List<Card> dealerCards = manageGame.getDealer().getDealerCards();
         dealDefault.removeAllElements();
         dealDefault.addElement(dealerCards.get(0).getSymbol()); //gets the first in dealer's deck
-        dealerList.setBounds(240,50, 20,20 * dealerCards.size());
+        dealerList.setBounds(240,50, 20,18 * dealerCards.size());
     }
 
     //MODIFIES: this
@@ -205,7 +205,7 @@ public class Game extends JFrame {
             dealDefault.addElement(card.getSymbol()); //gets all the cards in the dealer's deck
         }
 
-        dealerList.setBounds(240,50, 20,20 * dealerCards.size());
+        dealerList.setBounds(240,50, 20,18 * dealerCards.size());
     }
 
     //MODIFIES: this
@@ -395,16 +395,16 @@ public class Game extends JFrame {
         manageGame.setBettingAmount(choice);
     }
 
+    //EFFECTS: runs the
     private void playGame() {
         do {
             manageGame.runGame();
             hitOrStand();
-            repaint();
         } while (manageGame.getPlay());
-        updateDealerCardGraphics();
         getOutcome();
     }
 
+    //EFFECTS: determines if the user selected hit or stand.
     private void hitOrStand() {
         if (manageGame.getPlay()) {
             System.out.println("(1) Hit (2) Stand");
@@ -435,28 +435,20 @@ public class Game extends JFrame {
         }
     }
 
+    //MODIFIES: wins, loss
+    //EFFECTS: determines if the outcome is a win or a loss or a tie, and adding to the game log.
     private void getOutcome() {
         int cash = manageGame.getCash();
         int bet = manageGame.getBettingAmount();
 
         if (manageGame.getOutcome().equals("win")) {
             manageStats.addWins();
-            blackjackOutcome(cash, bet);
+            manageStats.addGameLog(true, false, cash, bet);
         } else if (manageGame.getOutcome().equals("lose")) {
             manageStats.addLosses();
             manageStats.addGameLog(false, true, cash, -bet);
         } else {
             manageStats.addGameLog(true, true, cash, 0);
-        }
-    }
-
-    private void blackjackOutcome(int cash, int bet) {
-        if (manageGame.isBlackjack()) {
-            cash += bet * 2.5;
-            manageStats.addGameLog(true, false, cash, (bet * 1.5));
-        } else {
-            cash += bet * 2;
-            manageStats.addGameLog(true, false, cash, bet);
         }
     }
 

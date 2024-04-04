@@ -10,13 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+// contains the methods related to the "stats" tab on the menu screen
 public class StatsTab extends Tab {
-
     private DefaultListModel<String> logs;
     private JList<String> playerLog;
     private JLabel winLabel;
     private JLabel loseLabel;
 
+    //EFFECTS: sets the controller Game, and initializes visuals.
     public StatsTab(Game controller) {
         super(controller);
         setLayout(new BorderLayout());
@@ -25,17 +26,20 @@ public class StatsTab extends Tab {
         updateWinButton();
         initializeWinLabel();
         updateLossesButton();
-        initializeGetLossesButton();
-
+        initializeLossesLabel();
     }
 
-    private void initializeGetLossesButton() {
+    //MODIFIES: this
+    //EFFECTS: initializes label
+    private void initializeLossesLabel() {
         loseLabel = new JLabel();
         loseLabel.setBounds(0, 30, 100, 20);
         add(loseLabel, BorderLayout.CENTER);
         loseLabel.setVisible(false);
     }
 
+    //MODIFIES: this
+    //EFFECTS: updates the label
     private void updateLossesButton() {
         JButton getLosses = new JButton("get losses");
         getLosses.setBounds(0, 100, 100, 30);
@@ -50,6 +54,8 @@ public class StatsTab extends Tab {
         });
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes label
     private void initializeWinLabel() {
         winLabel = new JLabel();
         winLabel.setBounds(0, 30, 100, 20);
@@ -57,6 +63,8 @@ public class StatsTab extends Tab {
         winLabel.setVisible(false);
     }
 
+    //MODIFIES: this
+    //EFFECTS: updates the label
     public void updateWinButton() {
         JButton getWins = new JButton("get wins");
         getWins.setBounds(0, 50, 80, 30);
@@ -71,6 +79,8 @@ public class StatsTab extends Tab {
         });
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes list
     private void initializeLog() {
         logs = new DefaultListModel<>();
         playerLog = new JList<>(logs);
@@ -78,6 +88,8 @@ public class StatsTab extends Tab {
         add(playerLog, BorderLayout.EAST);
     }
 
+    //MODIFIES: this
+    //EFFECTS: updates the list
     private void updateStat() {
         List<Log> player = controller.getStats();
         logs.removeAllElements();
@@ -92,6 +104,8 @@ public class StatsTab extends Tab {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes buttons
     private void updateStatButton() {
         JButton update = new JButton("update");
         update.addActionListener(new ActionListener() {

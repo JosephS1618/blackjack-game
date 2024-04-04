@@ -1,26 +1,18 @@
 {
     "gameManager": {
-        "play": false,
+        "play": true,
         "stand": false,
         "cash": 500,
         "bettingAmount": 0
     },
     "gameStats": {
-        "wins": 1,
-        "gameLog": [
-            {
-                "loss": false,
-                "cashLog": 500,
-                "won": true,
-                "difference": 0
-            },
-            {
-                "loss": true,
-                "cashLog": 500,
-                "won": false,
-                "difference": 0
-            }
-        ],
+        "wins": 0,
+        "gameLog": [{
+            "loss": true,
+            "cashLog": 500,
+            "won": false,
+            "difference": 0
+        }],
         "losses": 1
     }
 }
