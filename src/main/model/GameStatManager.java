@@ -8,6 +8,7 @@ import ui.MessagePrinter;
 import java.util.ArrayList;
 import java.util.List;
 
+// Runs the game stat manager. keeps track of the wins and losses, as well as a list of game logs.
 public class GameStatManager extends MessagePrinter implements Writable {
     private List<Log> gameLog;
     private double wins;
@@ -47,14 +48,19 @@ public class GameStatManager extends MessagePrinter implements Writable {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds a
     public void addWins() {
         this.wins++;
+        EventLog.getInstance().logEvent(new Event("Added a win. Win total: " + wins));
     }
 
     public void addLosses() {
         this.losses++;
+        EventLog.getInstance().logEvent(new Event("Added a loss. loss total: " + losses));
     }
 
+    //EFFECTS: saves the wins losses, and gameLog by writing it to a JSON file.
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

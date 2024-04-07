@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 import ui.MessagePrinter;
 
+// Contains all the methods related to running game functionality.
 public class GameManager extends MessagePrinter implements Writable {
     private static final int STARTING_CASH = 500; //starting cash for a new game
 
@@ -40,6 +41,7 @@ public class GameManager extends MessagePrinter implements Writable {
 
         gameDeck.shuffle(); // shuffles the deck
         firstDeal(); // gives player and dealer two cards each
+        EventLog.getInstance().logEvent(new Event("Started a new game"));
     }
 
     //MODIFIES: this, playerCard, dealerCard
@@ -147,6 +149,7 @@ public class GameManager extends MessagePrinter implements Writable {
     private void endGame() {
         play = false;
         printEndHand(dealer); // prints the dealers entire hand.
+        EventLog.getInstance().logEvent(new Event("Game ended"));
     }
 
     @Override

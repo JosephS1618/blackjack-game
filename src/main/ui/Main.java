@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Game game = new Game();
-            game.runInput(); // use to run terminal
+            game.runInput(); // use to run terminal instead of GUI
         } catch (FileNotFoundException e) {
             System.out.println("Unable to run application: file not found");
         }

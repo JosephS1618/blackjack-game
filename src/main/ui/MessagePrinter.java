@@ -4,6 +4,7 @@ import model.Card;
 import model.Dealer;
 import model.Player;
 
+// helps print specific messages to the console directly from the GameManager in model.
 public class MessagePrinter {
     public void print(String message) {
         System.out.println(message);

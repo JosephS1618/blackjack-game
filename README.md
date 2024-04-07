@@ -27,3 +27,19 @@
 - Save and load the Y (game outcomes) by selecting save, followed by load. 
 - Select the update button in the stats tab to see the visual component (showing list of game outcomes)
 - You can also select to view specifics of the X (game outcomes). select the "Get wins" and "get losses" buttons in the stats panel to get the number of wins and losses
+
+## Phase 4: Task 2
+Sample of console logs:
+* WindowListener method called: windowClosing.
+* Sat Apr 06 19:39:55 PDT 2024
+* Started a new game
+* Sat Apr 06 19:39:57 PDT 2024
+* Game ended
+* Sat Apr 06 19:39:57 PDT 2024
+* Added a win. Win total: 1.0
+* Sat Apr 06 19:39:58 PDT 2024
+* Started a new game
+* Sat Apr 06 19:40:04 PDT 2024
+* Game ended
+* Sat Apr 06 19:40:04 PDT 2024
+* Added a loss. loss total: 1.0

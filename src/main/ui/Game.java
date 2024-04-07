@@ -1,6 +1,7 @@
 package ui;
 
 import model.*;
+import model.Event;
 import org.json.JSONObject;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -8,13 +9,12 @@ import ui.tabs.LoadTab;
 import ui.tabs.SaveTab;
 import ui.tabs.StatsTab;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.Scanner;
 
 //Controls aspects of the game, including creating new decks, starting game, game logic,
 // keeping track of cash, and keeping game logs/stats.
-public class Game extends JFrame {
+public class Game extends JFrame implements WindowListener {
     private static final String JSON_STORE = "./data/saved.json";
     private static final int BOARD_WIDTH = 350;
     private static final int BOARD_HEIGHT = 300;
@@ -63,6 +63,29 @@ public class Game extends JFrame {
         initializeGraphics();
     }
 
+    // EFFECTS: prints the Iterator for events in eventLog to the console when the window closes.
+    public void windowClosing(WindowEvent e) {
+        System.out.println("WindowListener method called: windowClosing.");
+
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event);
+        }
+
+        ActionListener task = new ActionListener() {
+            boolean alreadyDisposed = false;
+            public void actionPerformed(ActionEvent e) {
+                if (isDisplayable()) {
+                    alreadyDisposed = true;
+                    dispose();
+                }
+            }
+        };
+        Timer timer = new Timer(500, task); //fire every half second
+        timer.setInitialDelay(2000);        //first delay 2 seconds
+        timer.setRepeats(false);
+        timer.start();
+    }
+
     //MODIFIES: this
     //EFFECTS: sets up the JFrame and the basic panels making up the game menu.
     public void initializeGraphics() {
@@ -84,6 +107,7 @@ public class Game extends JFrame {
 
         setLocationRelativeTo(null);
         setVisible(true);
+        addWindowListener(this);
     }
 
     //MODIFIES: this
@@ -118,7 +142,6 @@ public class Game extends JFrame {
         add(sidebar);
     }
 
-    //TODO fix
     //MODIFIES: this
     //EFFECTS: sets up the play button that starts the game
     public void displayPlayButton() {
@@ -271,11 +294,11 @@ public class Game extends JFrame {
         manageGame.playGame(manageGame.getPlayer().playerSum(), manageGame.getDealer().dealerSum());
         updatePlayerSum();
 
-        if (manageGame.getOutcome().equals("win")) {
+        if (manageGame.getOutcome() != null && manageGame.getOutcome().equals("win")) {
             endGameFunctions("WIN");
-        } else if (manageGame.getOutcome().equals("lose")) {
+        } else if (manageGame.getOutcome() != null && manageGame.getOutcome().equals("lose")) {
             endGameFunctions("LOSE");
-        } else if (manageGame.getOutcome().equals("tie")) {
+        } else if (manageGame.getOutcome() != null && manageGame.getOutcome().equals("tie")) {
             endGameFunctions("TIE");
         }
     }
@@ -496,4 +519,33 @@ public class Game extends JFrame {
         return manageStats.getGameLog();
     }
 
+    //EFFECTS: no effects
+    public void windowOpened(WindowEvent e) {
+        //System.out.println("WindowListener method called: windowOpened.");
+    }
+
+    //EFFECTS: no effects
+    public void windowClosed(WindowEvent e) {
+        //System.out.println("WindowListener method called: windowClosed.");
+    }
+
+    //EFFECTS: no effects
+    public void windowIconified(WindowEvent e) {
+        //System.out.println("WindowListener method called: windowIconified.");
+    }
+
+    //EFFECTS: no effects
+    public void windowDeiconified(WindowEvent e) {
+        //System.out.println("WindowListener method called: windowDeiconified.");
+    }
+
+    //EFFECTS: no effects
+    public void windowActivated(WindowEvent e) {
+        //System.out.println("WindowListener method called: windowActivated.");
+    }
+
+    //EFFECTS: no effects
+    public void windowDeactivated(WindowEvent e) {
+        //System.out.println("WindowListener method called: windowDeactivated.");
+    }
 }

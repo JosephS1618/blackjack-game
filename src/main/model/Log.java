@@ -33,6 +33,7 @@ public class Log implements Writable {
     }
 
     @Override
+    //EFFECTS: writes the log to JSON file
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("won", won);
