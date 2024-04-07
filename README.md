@@ -43,3 +43,35 @@ Sample of console logs:
 * Game ended
 * Sat Apr 06 19:40:04 PDT 2024
 * Added a loss. loss total: 1.0
+
+Events are logged each time a game is played, when the game ends, and also 
+when a win or loss occurs. 
+
+## Phase 4: Task 3
+My design for the game shown in the UML diagram shows a central class in the 
+ui package called Game that is called from the Main class. This class took 
+control of all the primary aspects of the games function directly from the 
+ui package, including printing to the console and displaying the GUI.
+
+While I was satisfied with how the game functioned, I thought that I could have 
+further improved my design by refactoring some of my classes. For instance, 
+the Player and Dealer classes shared some of the same methods but also had 
+a few methods that were unique to each other. With more time, I could have made 
+them both extend a shared parent class to abstract away the duplicated methods 
+while also leaving room for unique methods to be implemented by each class. 
+
+Another design choice that I would refactor is incorporating the JPanel 
+BoardPanel directly into the Game class. While all the other tabs in the sidebar extended
+the Tab class, the BoardPanel where the main game was played was left in the Game class.
+I could have refactored BoardPanel into 
+its own unique tab by having it extend the abstract class Tab. However, due to a lot of the 
+functionality of the BoardPanel being tied directly into the Game functionalities,
+I chose to follow the simple route by directly adding it to the JFrame 
+in the Game class. 
+
+My final refactoring choice would be to remove or change the MessagePrinter class.
+I found the class to be quite redundant, as it performed 
+some of the tasks that should have been dedicated to the primary Game class. 
+I chose to include it as it helped simplify printing messages from 
+the model package. However, with more time I would have refactored its 
+methods directly into the Game class. 

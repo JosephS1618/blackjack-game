@@ -519,32 +519,32 @@ public class Game extends JFrame implements WindowListener {
         return manageStats.getGameLog();
     }
 
-    //EFFECTS: no effects
+    //EFFECTS: removes effects for the WindowListener implementation.
     public void windowOpened(WindowEvent e) {
         //System.out.println("WindowListener method called: windowOpened.");
     }
 
-    //EFFECTS: no effects
+    //EFFECTS: removes effects for the WindowListener implementation.
     public void windowClosed(WindowEvent e) {
         //System.out.println("WindowListener method called: windowClosed.");
     }
 
-    //EFFECTS: no effects
+    //EFFECTS: removes effects for the WindowListener implementation.
     public void windowIconified(WindowEvent e) {
         //System.out.println("WindowListener method called: windowIconified.");
     }
 
-    //EFFECTS: no effects
+    //EFFECTS: removes effects for the WindowListener implementation.
     public void windowDeiconified(WindowEvent e) {
         //System.out.println("WindowListener method called: windowDeiconified.");
     }
 
-    //EFFECTS: no effects
+    //EFFECTS: removes effects for the WindowListener implementation.
     public void windowActivated(WindowEvent e) {
         //System.out.println("WindowListener method called: windowActivated.");
     }
 
-    //EFFECTS: no effects
+    //EFFECTS: removes effects for the WindowListener implementation.
     public void windowDeactivated(WindowEvent e) {
         //System.out.println("WindowListener method called: windowDeactivated.");
     }
