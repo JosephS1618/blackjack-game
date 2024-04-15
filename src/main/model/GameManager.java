@@ -152,6 +152,7 @@ public class GameManager extends MessagePrinter implements Writable {
         EventLog.getInstance().logEvent(new Event("Game ended"));
     }
 
+    //EFFECTS: saves the game data to JSON that are necessary.
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
