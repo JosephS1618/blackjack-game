@@ -1,6 +1,4 @@
-# CPSC 210 Personal Project
-
-## Phase 0:
+# Personal Project
 
 **About The Project**:
 - _What will the application do?_
@@ -21,14 +19,13 @@
 - As a user, I want to have buttons that allow me to click save and quit at all times. 
 
 
-## Instructions for Grader:
+## Instructions:
 - Add an X by playing the game. Select the play on the sidebar and press play.
 - View the Y by selecting the stats tab and seeing the list of games played.
 - Save and load the Y (game outcomes) by selecting save, followed by load. 
 - Select the update button in the stats tab to see the visual component (showing list of game outcomes)
 - You can also select to view specifics of the X (game outcomes). select the "Get wins" and "get losses" buttons in the stats panel to get the number of wins and losses
 
-## Phase 4: Task 2
 Sample of console logs:
 * WindowListener method called: windowClosing.
 * Sat Apr 06 19:39:55 PDT 2024
@@ -47,7 +44,6 @@ Sample of console logs:
 Events are logged each time a game is played, when the game ends, and also 
 when a win or loss occurs. 
 
-## Phase 4: Task 3
 My design for the game shown in the UML diagram shows a central class in the 
 ui package called Game that is called from the Main class. This class took 
 control of all the primary aspects of the games function directly from the 
