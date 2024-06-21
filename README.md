@@ -1,4 +1,9 @@
-# Personal Project
+# Blackjack Game
+
+<img width="344" alt="Screenshot 2024-06-20 at 11 54 25 PM" src="https://github.com/JosephS1618/blackjack-game/assets/46387707/302433e8-1e72-4976-9cb4-054f9732168d">
+
+<img width="345" alt="Screenshot 2024-06-20 at 11 55 08 PM 1" src="https://github.com/JosephS1618/blackjack-game/assets/46387707/a0d1c6a8-f0f9-4fcb-a2df-7528595a17aa">
+
 
 **About The Project**:
 - _What will the application do?_
